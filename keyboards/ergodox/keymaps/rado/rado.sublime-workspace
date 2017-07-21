@@ -1,0 +1,917 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "keymap.c",
+			"settings":
+			{
+				"buffer_size": 3643,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "base.c",
+			"settings":
+			{
+				"buffer_size": 3319,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mychars.c",
+			"settings":
+			{
+				"buffer_size": 2732,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "arrows.c",
+			"settings":
+			{
+				"buffer_size": 2818,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "shift.c",
+			"settings":
+			{
+				"buffer_size": 2782,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "mouse.c",
+			"settings":
+			{
+				"buffer_size": 2753,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "jlkjj kjkldjfioejl|\nkjaldjielsiesijslkdjeislfe\"###222\n\n1122##4455666\n7775556688999\"\"##22112#4#445556688\"989eyTest1Ffffffff\n\n\n2\nf@@@@$#%@!$@${{{{[*************88********\n\nhghnb\n|||999992ff5324323244332253@@@@@@@aaaA99\n9\nfffffaarrrfffffffaaaaaaffff\n|\n\n\no\nwo.l999df|fda\na\n|lffjlsf\njflkjsl\n\n\nklkkjlikjljililillilikk_____-----____---__/////?????*****************5*%5*55*%**********%%%**%*%****\n\n$$$33\nfdjk\ndFDD\n\n\n3555$$$$$$$$\n\n~\nfl\n~kkKilkkkkkkkkkkkkkkkiljiekljikjkdkdkdkkkkkkkolililililiililikiklilili\nljlj\n1 \ngg\n\n~\n~\n....\n\nffa\nvaf|jfieq\npe\nvmapeirkkii\n\n\n\n\n\nk\nji!@####4#\n\n\nwowo\nwo\nwo\nwowwowowowowowowowowowowowowowowowow\n||\n\nk\n\n\nsssssdefgcgcsasnfff|||||||f\n\n",
+			"settings":
+			{
+				"buffer_size": 654,
+				"line_ending": "Windows",
+				"name": "jlkjj kjkldjfioejl|"
+			}
+		},
+		{
+			"contents": "/* Keymap 7: function / navigation / mouse layer\n *\n * ,--------------------------------------------------.                                  ,--------------------------------------------------.\n * |        |  F1  |  F2  |  F3  |  F4  |  F5  |VolMut|                                  |      |  F6  |  F7  |  F8  |  F9  |  F10 |        |\n * |--------+------+------+------+------+-------------|                                  |------+------+------+------+------+------+--------|\n * |        | Next |LClick|  Up  |RClick| WhUp |VolDwn|                                  |      | PgUp | Home |  Up  |  End |  F11 |        |\n * |--------+------+------+------+------+------|      |                                  |      |------+------+------+------+------+--------|\n * |        | Prev | Left | Down | Right|WhDown|------|                                  |------| PgDn | Left | Down | Right|  F12 |        |\n * |--------+------+------+------+------+------| VolUp|                                  |      |------+------+------+------+------+--------|\n * |        | Undo |  Cut | Copy | Paste|      |      |                                  |      |      |      |      |      |      |        |\n * `--------+------+------+------+------+-------------,-------------.      ,-------------`-------------+------+------+------+------+--------'\n *   |      |      |      |      |      |             |      |      |      |      |      |             |      |      |      |      |      |\n *   `----------------------------------'      ,------|------|------|      |------+------+------.      `----------------------------------'\n *                                             |      |      |      |      |      |      |      |\n *                                             |      |      |------|      |------|      |      |\n *                                             |      |      |      |      |      |      |      |\n *                                             `--------------------'      `--------------------'\n */\n[FNAV] = KEYMAP(\n// Left hand\nKC_NO,		KC_F1,		KC_F2,		KC_F3,		KC_F4,		KC_F5,		KC_MUTE,\nKC_NO,		KC_MS_BTN5,	KC_MS_BTN1,	KC_MS_UP,	KC_MS_BTN2,	KC_MS_WH_UP,	KC_VOLU,\nKC_NO,		KC_MS_BTN4,	KC_MS_LEFT,	KC_MS_DOWN,	KC_MS_RIGHT,	KC_MS_WH_DOWN,\nKC_NO,		KC_UNDO,	KC_CUT,		KC_COPY,	KC_PASTE,	KC_NO,		KC_VOLD,\nKC_NO,		KC_NO,		KC_TRNS,	KC_TRNS,	KC_TRNS,\n														KC_TRNS,	KC_TRNS,\n																KC_TRNS,\n												KC_NO,		KC_TRNS,	KC_TRNS,\n// Right hand\n				KC_NO,		KC_F6,		KC_F7,		KC_F8,		KC_F9,		KC_F10,		KC_NO,\n				KC_NO,		KC_PGUP,	KC_HOME,	KC_UP,		KC_END,		KC_F11,		KC_NO,\n						KC_PGDOWN,	KC_LEFT,	KC_DOWN,	KC_RIGHT,	KC_F12,		KC_NO,\n				KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,\n								KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_NO,		KC_NO,\nKC_TRNS,	KC_TRNS,\nKC_TRNS,\nKC_TRNS,	KC_TRNS,	KC_NO),\n			",
+			"settings":
+			{
+				"buffer_size": 2804,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "qmk_firmware/quantum/quantum_keycodes.h",
+			"settings":
+			{
+				"buffer_size": 14311,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "qmk_firmware/tmk_core/common/keycode.h",
+			"settings":
+			{
+				"buffer_size": 11204,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "switch_layers.c",
+			"settings":
+			{
+				"buffer_size": 2788,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "compile.sh",
+			"settings":
+			{
+				"buffer_size": 520,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "config.h",
+			"settings":
+			{
+				"buffer_size": 251,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Makefile",
+			"settings":
+			{
+				"buffer_size": 430,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 55.0,
+		"last_filter": "synt c",
+		"selected_items":
+		[
+			[
+				"synt c",
+				"Set Syntax: C"
+			]
+		],
+		"width": 588.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/C/Users/rado/Desktop/ergodox",
+		"/C/Users/rado/Desktop/ergodox/keymaps/333fred",
+		"/C/Users/rado/Desktop/ergodox/keymaps/common-nighthawk",
+		"/C/Users/rado/Desktop/ergodox/keymaps/default",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs"
+	],
+	"file_history":
+	[
+		"/C/Users/rado/Desktop/ergodox/special_functions.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/make_instructions.md",
+		"/C/Users/rado/Desktop/ergodox/keymaps/plums/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/ishigoya-jp/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/csharp_dev/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/command.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/home.md",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/faq.md",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/build_old.md",
+		"/C/Users/rado/Desktop/ergodox/keymaps/algernon/config.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/dynamic_macro.h",
+		"/C/Users/rado/Desktop/ergodox/config.h",
+		"/C/Users/rado/Desktop/ergodox/rrr.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/albert/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/albert/config.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/familiar/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/algernon/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/albert/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/atreus62/keymaps/mneme/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/familiar/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/process_keycode/process_leader.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/quantum.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/planck/keymaps/cbbrowne/readme.md",
+		"/C/Users/rado/Desktop/ergodox/keymaps/erez_experimental/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/deadcyclo/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/planck/keymaps/experimental/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_tapping.c",
+		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/rushian-uni-books.txt",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keyboard.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.h",
+		"/C/Users/rado/Desktop/ergodox/keymaps/teckinesis/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/algernon/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/osx_de_experimental/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/jacobono/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/twey/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/belak/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/mclennon_osx/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/osx_whiskey_tango_foxtrot_capslock/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/swissgerman/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/robot_test_layout/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/romanzolotarev-norman-osx/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/win10_writers-block/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/dvorak_programmer/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/pvinis/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/osx_kinesis_pnut/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/techtomas/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/tm2030/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/tkuichooseyou/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/333fred/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/bepo_csa/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/default/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keycode.h",
+		"/C/Users/rado/Desktop/ergodox/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/xyverz/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/plover/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/msc/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/alphadox/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/dvorak_spanish/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/tonyabra_osx/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/kristian/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/src/ergodox_ez_firmware_krpxgn.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/ab/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/osx_fr/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/osx_de/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/mychars.c",
+		"/C/Users/rado/Desktop/ergodox/keymap.c.c",
+		"/C/Users/rado/Desktop/ergodox/ergodox_ez_firmware_krpxgn.c",
+		"/C/Users/rado/Desktop/ergodox/ergodox_ez_rado.c",
+		"/C/Users/rado/Dropbox/box/__engineering/regodox-ez/practice-words.txt",
+		"/C/Users/rado/Downloads/keymap.txt",
+		"/C/Users/rado/Dropbox/box/__engineering/regodox-ez/lkjasfljw",
+		"/C/Users/rado/Desktop/ergodox/ergodox_ez_firmware_qrglpn.c",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_qrglpn.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/bryan/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/ergodox_ez_rado.hex",
+		"/C/Program Files/PuTTY/README.txt",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_kvpajd.c",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_kbpang.c",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_qnylmy.c",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_koxome.c",
+		"/C/Users/rado/Downloads/ergodox_ez_firmware_knyley.c",
+		"/C/Users/rado/Dropbox/box/__private/_family/andrzej/poznan-warsztat.txt",
+		"/C/Users/rado/Dropbox/box/__private/anrzej/monika-andrzej-chat.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/software/python/python-visualization.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/software/python/python-visualization2.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/angular/web-Bootstrap-Angular-book.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/machine-learning/python-book-safari.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/ansible/cert-redhat.txt",
+		"/C/Users/rado/Dropbox/box/__private/anrzej/istqb-testing-exam/mynotes.txt.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/youtube-videos.txt",
+		"/C/Users/rado/Dropbox/box/__private/lukasz.txt",
+		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/monitor/monitor-size-comparison.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/data-science-bigdata/portal-news-conference-videos.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/Bayesian-Data-Analysis.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/Bayesian Statistics/mynotes.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/machine-learning/youtube-udacity.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/angular/angular2.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/data-science-bigdata/panda-numpy-videos-linkedin.txt",
+		"/C/Users/rado/Dropbox/box/__private/elearning/safari/safari/book-reading-todo/statictics-panda/panda-video.txt",
+		"/C/Users/rado/Dropbox/docs/linux/trackpad/mynotes.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/new-delivered-laptop/HWMonitor.txt",
+		"/C/Users/rado/Desktop/HWMonitor.txt",
+		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/mysql-client-bestpractice.txt",
+		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/ergotron/mynotes.txt",
+		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/ergotron.dual-arm/addon/mynotes.txt",
+		"/C/Users/rado/Dropbox/box/__private/shopping/laptop-lenovo-p70/price-comparison.txt",
+		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/nova-show-hv-info.txt",
+		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/show-table-sql-sdl.txt",
+		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/show-sql.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/monitor-docking-station.txt",
+		"/C/Users/rado/Dropbox/docs/box/printing-book/mynotes.txt",
+		"/C/Users/rado/Dropbox/docs/box/mynotes.txt",
+		"/C/Users/rado/Dropbox/docs/mbank/przelew-na-emax-usd-w-dolarach-z-etrade.txt",
+		"/C/Users/rado/Dropbox/docs/renting/olga.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/windows-install.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/linux-graphic-monitors2.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/new-delivered-laptop/hardware-listing.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/ram6.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/ram5",
+		"/C/Users/rado/Dropbox/docs/linux/google.txt",
+		"/C/Users/rado/Dropbox/docs/linux/laptop-instalation-notes.txt",
+		"/C/Users/rado/Dropbox/docs/linux/btrfs.txt",
+		"/C/Users/rado/Downloads/archlinux-2016.05.01-dual.iso",
+		"/C/Windows/System32/drivers/etc/hosts",
+		"/C/Users/rado/Dropbox/docs/linux/instalation-arch-manjaro.txt",
+		"/C/Users/rado/Box Sync/_cloud_ops/work-from-home/new-vpn.txt",
+		"/C/Users/rado/Box Sync/_cloud_ops/_projects/rekick-architecture.txt",
+		"/C/Users/rado/Dropbox/docs/laptop.p70/disk3.txt"
+	],
+	"find":
+	{
+		"height": 50.0
+	},
+	"find_in_files":
+	{
+		"height": 138.0,
+		"where_history":
+		[
+			"C:\\Users\\rado\\Desktop\\ergodox\\keymaps",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\docs",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\docs",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
+			"C:\\Users\\rado\\Desktop\\ergodox\\keymaps",
+			"keymap.c",
+			"<current file>,<open folders>,-keymap.c",
+			"<current file>,<open folders>",
+			"",
+			"*.h",
+			"",
+			"HHHHHHH"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"QK_MOD_TAP",
+			"f[(].[)]",
+			"f[(]",
+			"f(",
+			"KC_ESCAPE",
+			"li",
+			"magic",
+			"NO_PRINT",
+			"uprint",
+			"print",
+			"debug",
+			"AUTOLOG_ENABLE ",
+			"dynamic_macros",
+			"lead",
+			"KC_LEAD",
+			"ABCDkeFEkfFFGHIJdjdkLMNMOPkq",
+			"kakakakabkakakakakakakaka",
+			"li",
+			"PERMISSIVE_HOLD",
+			"keyevent_t",
+			"keyrecord_t",
+			")\n",
+			"action_function",
+			"f1",
+			"MNXT",
+			"A_9",
+			"matrix_scan_user",
+			"KAZARI",
+			"s",
+			"SPECIAL_FUNCTIONS",
+			"QK_TO",
+			"KC_ROLL_OVER",
+			"grave",
+			"_______",
+			"\n",
+			"FN",
+			"Fn",
+			"F1",
+			"22",
+			"mou",
+			"fjasldfjasldfjiej'lakmf(jy)(jj)(hf();!ujfy(ngytytyhgbnnyhtyt8t;;)(;!y;  l )) 'aljf\nkf!?(!!(!(!(!!(!(!!!!!!((((f(!!!!!\nbnbnbnbnbnbnbnnnnbnbnbnnh;!(j)                 \n!!bb!!!!\ndfaslkfjlafjlljljljlk",
+			"\n",
+			"\">",
+			"sfaaffffddddeefslkjflkjlkjff",
+			"ACTION_LAYER_TAP_TOGGLE",
+			"KC_TRANSPARENT",
+			"#",
+			"adfxf",
+			"jldfeilxjfieojljlkxdf",
+			"xxdxxxxxdd",
+			"=",
+			"-",
+			"par",
+			"parit",
+			")\n",
+			"grub",
+			" "
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": true,
+		"replace_history":
+		[
+			"SPEC_FUNC",
+			"HHHHHHH",
+			"______"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": false,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "keymap.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3643,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1725,
+								1725
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1478.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "base.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3319,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								965,
+								971
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "mychars.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2171,
+								2171
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "arrows.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2818,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2401,
+								2401
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 13,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "shift.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2782,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1435,
+								1435
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 12,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "mouse.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2753,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1903,
+								1903
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 435.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 654,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								249,
+								249
+							]
+						],
+						"settings":
+						{
+							"auto_name": "jlkjj kjkldjfioejl|",
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2804,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2804,
+								2804
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "qmk_firmware/quantum/quantum_keycodes.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 14311,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11610,
+								11610
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 15085.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "qmk_firmware/tmk_core/common/keycode.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 11204,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "switch_layers.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2788,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3,
+								3
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "compile.sh",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 520,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								473,
+								473
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 12,
+					"file": "config.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 251,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								250,
+								250
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 13,
+					"file": "Makefile",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 430,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								74,
+								74
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 49.0
+	},
+	"input":
+	{
+		"height": 49.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.518030910132,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 436.0
+	},
+	"pinned_build_system": "",
+	"project": "rado.sublime-project",
+	"replace":
+	{
+		"height": 94.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"kc_lead",
+				"qmk_firmware\\quantum\\process_keycode\\process_leader.c"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 343.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 612.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 346.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

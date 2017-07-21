@@ -1,0 +1,25 @@
+
+# 
+# SLEEP_LED_ENABLE=no
+
+COMMAND_ENABLE=yes
+# BOOTMAGIC_ENABLE=yes
+DEBUG_ENABLE = yes
+CONSOLE_ENABLE = yes
+#TAP_DANCE_ENABLE = yes
+
+# AUTOLOG_ENABLE = no
+# ifeq (${AUTOLOG_ENABLE},yes)
+# KEYLOGGER_ENABLE = yes
+# OPT_DEFS += -DAUTOLOG_ENABLE
+# endif
+
+# KEYLOGGER_ENABLE = yes
+# ifeq (${KEYLOGGER_ENABLE},yes)
+# OPT_DEFS += -DKEYLOGGER_ENABLE
+# CONSOLE_ENABLE = yes
+# endif
+
+ifndef QUANTUM_DIR
+	include ../../../../Makefile
+endif
