@@ -14,7 +14,7 @@
  *                                        ,-------------.       ,-------------.
  *                                       |KC_LEAD| met  |       | ALL  |KC_LEAD|
  *                                 ,------|------|------|       |------+------+------.
- *                                 |  to  |      | RESET|       |      |      |space |
+ *                                 |  to  |      | RESET|       |DEBUG |      |space |
  *                                 |  all |      |------|       |------|      |      |
  *                                 | layer|      |del   |       |      |      |      |
  *                                 `--------------------'       `--------------------'
@@ -45,7 +45,7 @@
 
 
    ALL_T(KC_NO),    KC_LEAD,
-   HHHHHHH,
+   F(2), //DEBUG,
    HHHHHHH,         HHHHHHH,    KC_SPACE
 
    ),

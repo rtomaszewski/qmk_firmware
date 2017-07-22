@@ -36,7 +36,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM fn_actions[] = {
   [0] = ACTION_FUNCTION(0),  // Calls action_function()
-  [1] = ACTION_FUNCTION(1)
+  [1] = ACTION_FUNCTION(1),
+  [2] = ACTION_FUNCTION(2),
 };
 
 static uint8_t layer_mychars = 0;
@@ -62,6 +63,16 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break;
     case 1:
        uprintf("aaa\n");
+      break;
+    case 2:
+       if (record->event.pressed) {
+        debug_enable = !debug_enable;
+        if (debug_enable) {
+          print("\ndebug: on\n");
+        } else {
+          print("\ndebug: off\n");
+        }
+      }
       break;
   }
 }
