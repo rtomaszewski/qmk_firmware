@@ -14,7 +14,7 @@
  *                                        ,-------------.       ,-------------.
  *                                       |KC_LEAD| met  |       | ALL  |KC_LEAD|
  *                                 ,------|------|------|       |------+------+------.
- *                                 |  to  |      |      |       |      |      |space |
+ *                                 |  to  |      | RESET|       |      |      |space |
  *                                 |  all |      |------|       |------|      |      |
  *                                 | layer|      |del   |       |      |      |      |
  *                                 `--------------------'       `--------------------'
@@ -31,7 +31,7 @@
 
 
     KC_LSFT,  KC_RSFT, /* MEH_T(KC_NO),*/
-    HHHHHHH,
+    RESET,
     TO(ALL_LAYERS), HHHHHHH,     KC_DELETE,
 
 
