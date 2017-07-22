@@ -3,6 +3,12 @@
 	[
 		{
 			"path": "."
+		},
+		{
+			"path": "C:\\Users\\rado\\Desktop\\ergodox\\keymaps"
+		},
+		{
+			"path": "C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware"
 		}
 	]
 }

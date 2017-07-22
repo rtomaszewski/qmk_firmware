@@ -6,7 +6,7 @@
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
   EPRM,
-  VRSN
+  VRSN,
 };
 
 #define HHHHHHH KC_TRNS
@@ -35,8 +35,108 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-  [1] = ACTION_LAYER_TAP_TOGGLE(1)
+  [0] = ACTION_FUNCTION(0),  // Calls action_function()
+  [1] = ACTION_FUNCTION(1)
 };
+
+static uint8_t layer_mychars = 0;
+static uint8_t layer_mychars_release = 0;
+
+void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
+// static uint8_t mods_pressed;
+//  static bool mod_flag;
+  
+  uprintf("%d action\n", id);
+
+  switch (id) {
+    case 0:
+      if (record->event.pressed) {
+        uprintf("%d a pressed\n", id);
+        layer_mychars=1;
+        layer_mychars_release=0;
+        layer_on (MYCHARS);
+      } else {
+        uprintf("%d a release\n", id);
+        layer_mychars_release=1;
+      }
+      break;
+    case 1:
+       uprintf("aaa\n");
+      break;
+  }
+}
+
+/*return:
+  true - the original key press will be normally handled by the firmware
+  false - the functio below decide what the action should be; no further processing in other funs in the firmware
+*/
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  uint16_t aux_keycode=keycode & 0x00ff;
+  uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
+
+  if (layer_mychars==1 ) {
+    switch (aux_keycode) {
+      case KC_0:
+      case KC_1:
+      case KC_2:
+      case KC_3:
+      case KC_4:
+      case KC_5:
+      case KC_6:
+      case KC_7:
+      case KC_8:
+      case KC_9:
+        if (record->event.pressed) {
+          uprintf("r pressed\n");
+          register_code(keycode);
+          send_keyboard_report();
+        } else {
+          uprintf("r release\n");
+          unregister_code(keycode);
+          if ( layer_mychars_release ) {
+            layer_mychars_release=0;
+            layer_mychars=255;
+            layer_off(MYCHARS);
+            layer_on (BASE);
+          }
+
+          send_keyboard_report();
+        }
+
+       // return false;
+    } //switch
+
+  } else if (layer_mychars == 255 ) {
+    layer_mychars=0;
+    uprintf("exit layer, release key catching\n");
+  } else {
+    uprintf("rrr\n");
+    switch (keycode) {
+      // dynamically generate these.
+      case EPRM:
+        if (record->event.pressed) {
+          eeconfig_init();
+        }
+        return false;
+        break;
+      case VRSN:
+        if (record->event.pressed) {
+          SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+        }
+        return false;
+        break;
+      // case KC_ESCAPE:
+      //   if (record->event.pressed) {
+      //     SEND_STRING ("Test1");
+      //   }
+      //   return true;
+      //   break;
+    } //switch
+  } //else
+
+  return true;
+}
+
 
 // leaving this in place for compatibilty with old keymaps cloned and re-compiled.
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
@@ -69,37 +169,6 @@ void matrix_init_user() {
 //    wait_ms(10);
 //  }
   ergodox_led_all_off();
-}
-
-
-/*return:
-  true - the original key press will be normally handled by the firmware
-  false - the functio below decide what the action should be; no further processing in other funs in the firmware
-*/
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    // dynamically generate these.
-    case EPRM:
-      if (record->event.pressed) {
-        eeconfig_init();
-      }
-      return false;
-      break;
-    case VRSN:
-      if (record->event.pressed) {
-        SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-      }
-      return false;
-      break;
-    // case KC_ESCAPE:
-    //   if (record->event.pressed) {
-    //     SEND_STRING ("Test1");
-    //   }
-    //   return true;
-    //   break;
-
-  }
-  return true;
 }
 
 // LEADER_EXTERNS();

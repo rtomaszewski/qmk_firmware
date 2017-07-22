@@ -1,5 +1,5 @@
 
-	d1="/media/sf_ergodox"
+	d1="/media/sf_ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado"
 	d2="/root/qmk_firmware/keyboards/ergodox/keymaps/rado"
 	rm -rvf "$d2/"
 	mkdir "$d2"
@@ -13,6 +13,7 @@
 
 	cd /root/qmk_firmware/keyboards/ergodox/
 	make rado &> ~/rado.los
+#	make -fno-strict-overflow rado &> ~/rado.los
 
 set -vx
 	mv /root/qmk_firmware/ergodox_ez_rado.hex /media/sf_ergodox/

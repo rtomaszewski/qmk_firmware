@@ -5,6 +5,8 @@
 
 //#define NO_DEBUG
 // #define NO_PRINT
+#define DEBUG_ACTION
+#define USER_PRINT
 
 // #define ONESHOT_TAP_TOGGLE 2
 //#define ONESHOT_TIMEOUT 3000

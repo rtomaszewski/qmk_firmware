@@ -39,8 +39,8 @@
    KC_7,           KC_8,         KC_9,         KC_DQUO,       KC_0,           KC_EQUAL,           HHHHHHH,
    KC_RPRN,        KC_Y,         KC_U,         KC_I,          C_S_T(KC_O),    KC_P,               KC_APPLICATION,
                    KC_H,         ALT_T(KC_J),  RSFT_T(KC_K),   CTL_T(KC_L),    KC_PIPE,            ALGR_T(KC_ENTER),
-   KC_COLN,        KC_N,         KC_M,         KC_SLASH,      KC_DOT,         OSL(MYCHARS),       OSL(SPEC_FUNC),
-// KC_COLN,        KC_N,         KC_M,         KC_SLASH,      KC_LEAD,         OSL(MYCHARS),       OSL(SPEC_FUNC),
+   //KC_COLN,        KC_N,         KC_M,         KC_SLASH,      KC_DOT,         OSL(MYCHARS),       OSL(SPEC_FUNC),
+   KC_COLN,        KC_N,         KC_M,         KC_SLASH,      KC_DOT,         F(0),             F(1),
                            RCTL_T(KC_DELETE),  HHHHHHH,      HHHHHHH,        TT(SPEC_FUNC),      MO(SPEC_FUNC),
 
 

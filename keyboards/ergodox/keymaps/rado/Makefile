@@ -20,6 +20,7 @@ CONSOLE_ENABLE = yes
 # CONSOLE_ENABLE = yes
 # endif
 
+
 ifndef QUANTUM_DIR
 	include ../../../../Makefile
 endif

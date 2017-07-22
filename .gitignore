@@ -42,3 +42,4 @@ util/Win_Check_Output.txt
 *.png
 *.jpg
 *.gif
+keyboards/ergodox/keymaps/rado/rrr.c
