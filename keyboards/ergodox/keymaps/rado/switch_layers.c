@@ -2,11 +2,11 @@
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
-   |        |      |ctr+w | MSUp | Home | End  |      |           |      |ctr+y |      |      |      |      |        |
- * |--------+------+------+------+------+------|Enter |           |      |------+------+------+------+------+--------|
+   |SFT_ctr/t| ctr/f|ctr+w | MSUp | Home | End  |      |           |      |ctr+y |      |      |      |      |        |
+ * |--------+------+------+------+------+------|space |           |      |------+------+------+------+------+--------|
  * |        |ctr+a |ctr/ML|sft/MD|alt/MR|alt+f |------|           |------| BASE |S_FUNC|      |      |      |        |
- * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * |        |ctr+z |ctr+x |ctr+c |ctr+v |ctr+b |space |           |MousBt1|     |ARROW |SHIFT |MOUSE |MYCHAR|        |
+ * |--------+------+------+------+------+------|Enter|           |      |------+------+------+------+------+--------|
+ * | ctr/s  |ctr+z |ctr+x |ctr+c |ctr+v |ctr+b |     |           |MousBt1|     |ARROW |SHIFT |MOUSE |MYCHAR|        |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
  *   |      |      |      |      |      |                                       |      |      |      |      |      |
  *   `----------------------------------'                                       `----------------------------------'
@@ -27,9 +27,9 @@
 
     //left
     HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,
-    HHHHHHH,HHHHHHH,LCTL(KC_W),KC_UP,KC_HOME,KC_END,KC_ENTER,
+    LSFT(LCTL(KC_T)),LCTL(KC_F),LCTL(KC_W),KC_UP,KC_HOME,KC_END,KC_SPACE,
     HHHHHHH,LCTL(KC_A),CTL_T(KC_LEFT),SFT_T(KC_DOWN),ALT_T(KC_RIGHT),LALT(KC_F),
-    HHHHHHH,LCTL(KC_Z),LCTL(KC_X),LCTL(KC_C),LCTL(KC_V),LALT(KC_B),KC_SPACE,
+    LCTL(KC_S),LCTL(KC_Z),LCTL(KC_X),LCTL(KC_C),LCTL(KC_V),LALT(KC_B),KC_ENTER,
     HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,
 
 

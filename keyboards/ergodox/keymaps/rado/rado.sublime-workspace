@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"keymap",
+				"keymap"
+			],
+			[
 				"layer_",
 				"layer_mychars"
 			]
@@ -12,58 +16,32 @@
 	"buffers":
 	[
 		{
+			"contents": "#include \"ergodox.h\"\n#include \"debug.h\"\n#include \"action_layer.h\"\n#include \"version.h\"\n\nenum custom_keycodes {\n  PLACEHOLDER = SAFE_RANGE, // can always be here\n  EPRM,\n  VRSN,\n};\n\n#define HHHHHHH KC_TRNS\n\nenum layers {\n    BASE=0, // default layer\n    ARROW, \n    SHIFT_KEYS, \n    MOUSmE_MOVEMENT, \n    ALL_LAYERS, \n    SPEC_FUNC,\n    MYCHARS,\n};\n\n\nconst uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {\n\n#include \"base.c\"\n#include \"arrows.c\"\n#include \"shift.c\"\n#include \"mouse.c\"\n#include \"switch_layers.c\"\n#include \"mychars.c\"\n#include \"special_functions.c\"\n\n};\n\nconst uint16_t PROGMEM fn_actions[] = {\n  [0] = ACTION_FUNCTION(0),  // Calls action_function()\n  [1] = ACTION_FUNCTION(1),\n  [2] = ACTION_FUNCTION(2),\n};\n\nstatic uint8_t layer_mychars = 0;\nstatic uint8_t layer_mychars_release = 0;\n\nvoid action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {\n// static uint8_t mods_pressed;\n//  static bool mod_flag;\n  \n  uprintf(\"%d action\\n\", id);\n\n  switch (id) {\n    case 0:\n      if (record->event.pressed) {\n        uprintf(\"%d a pressed\\n\", id);\n        layer_mychars=1;\n        layer_mychars_release=0;\n        layer_on (MYCHARS);\n      } else {\n        uprintf(\"%d a release\\n\", id);\n        layer_mychars_release=1;\n      }\n      break;\n    case 1:\n       uprintf(\"aaa\\n\");\n      break;\n    case 2:\n       if (record->event.pressed) {\n        debug_enable = !debug_enable;\n        if (debug_enable) {\n          print(\"\\ndebug: on\\n\");\n        } else {\n          print(\"\\ndebug: off\\n\");\n        }\n      }\n      break;\n  }\n}\n\n/*return:\n  true - the original key press will be normally handled by the firmware\n  false - the functio below decide what the action should be; no further processing in other funs in the firmware\n*/\nbool process_record_user(uint16_t keycode, keyrecord_t *record) {\n  uint16_t aux_keycode=keycode & 0x00ff;\n  // uprintf(\"record %d %d %d\\n\", layer_mychars, keycode, aux_keycode);\n\n  // uprintf(\"(\");\n  // default_layer_debug();\n  // uprintf(\")\\n\");\n\n  // uprintf(\"(\");\n  // debug_record(*record);\n  // uprintf(\")\\n\");\n\n\n  if (layer_mychars==1 ) {\n    switch (aux_keycode) {\n      case KC_0:\n      case KC_1:\n      case KC_2:\n      case KC_3:\n      case KC_4:\n      case KC_5:\n      case KC_6:\n      case KC_7:\n      case KC_8:\n      case KC_9:\n        if (record->event.pressed) {\n          // uprintf(\"r pressed\\n\");\n          register_code(keycode);\n          send_keyboard_report();\n        } else {\n          // uprintf(\"r release\\n\");\n          unregister_code(keycode);\n          if ( layer_mychars_release ) {\n            layer_mychars_release=0;\n            layer_mychars=255;\n            layer_off(MYCHARS);\n            layer_on (BASE);\n          }\n\n          send_keyboard_report();\n        }\n\n       // return false;\n    } //switch\n\n  } else if (layer_mychars == 255 ) {\n    layer_mychars=0;\n    // uprintf(\"exit layer, release key catching\\n\");\n  } else {\n    // uprintf(\"rrr\\n\");\n    switch (keycode) {\n      // dynamically generate these.\n      case EPRM:\n        if (record->event.pressed) {\n          eeconfig_init();\n        }\n        return false;\n        break;\n      case VRSN:\n        if (record->event.pressed) {\n          SEND_STRING (QMK_KEYBOARD \"/\" QMK_KEYMAP \" @ \" QMK_VERSION);\n        }\n        return false;\n        break;\n      // case KC_ESCAPE:\n      //   if (record->event.pressed) {\n      //     SEND_STRING (\"Test1\");\n      //   }\n      //   return true;\n      //   break;\n    } //switch\n  } //else\n\n  return true;\n}\n\n\n// leaving this in place for compatibilty with old keymaps cloned and re-compiled.\nconst macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)\n{\n      switch(id) {\n        case 0:\n        if (record->event.pressed) {\n          SEND_STRING (QMK_KEYBOARD \"/\" QMK_KEYMAP \" @ \" QMK_VERSION);\n        }\n        break;\n      }\n    return MACRO_NONE;\n};\n\n// keyboard initialization\nvoid matrix_init_user() {\n // ergodox_led_all_on();\n // for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {\n //   ergodox_led_all_set(i);\n //   wait_ms(5);\n // }\n\n//    rgblight_enable();\n//    rgblight_mode(1);\n//    rgblight_setrgb(0x00,0x00,0xff);\n//    wait_ms(100);\n\n//  for (int i = LED_BRIGHTNESS_LO; i > 0; i--) {\n//    ergodox_led_all_set(i);\n//    wait_ms(10);\n//  }\n  ergodox_led_all_off();\n}\n\n// LEADER_EXTERNS();\n    \nvoid matrix_scan_user(void) {\n    // LEADER_DICTIONARY() {\n    //   leading = false;\n    //   leader_end();\n\n    //   SEQ_ONE_KEY(KC_F) {\n    //     register_code(KC_S);\n    //     unregister_code(KC_S);\n    //   }\n    //   SEQ_TWO_KEYS(KC_A, KC_S) {\n    //     register_code(KC_H);\n    //     unregister_code(KC_H);\n    //   }\n    //   SEQ_THREE_KEYS(KC_A, KC_S, KC_D) {\n    //     register_code(KC_S);\n    //     unregister_code(KC_S);\n    //   }\n    // }\n\n    uint8_t layer = biton32(layer_state);\n\n    ergodox_board_led_off();\n    ergodox_right_led_1_off();\n    ergodox_right_led_2_off();\n    ergodox_right_led_3_off();\n    switch (layer) {\n        case 1:\n            ergodox_right_led_1_on();\n            break;\n        case 2:\n            ergodox_right_led_2_on();\n            break;\n        case 3:\n            ergodox_right_led_3_on();\n            break;\n        case 4:\n            ergodox_right_led_1_on();\n            ergodox_right_led_2_on();\n            break;\n        case 5:\n            ergodox_right_led_1_on();\n            ergodox_right_led_3_on();\n            break;\n        case 6:\n            ergodox_right_led_2_on();\n            ergodox_right_led_3_on();\n            break;\n        case 7:\n            ergodox_right_led_1_on();\n            ergodox_right_led_2_on();\n            ergodox_right_led_3_on();\n            break;\n        default:\n            break;\n    }\n\n};\n",
 			"file": "keymap.c",
+			"file_size": 5983,
+			"file_write_time": 131453225635928540,
 			"settings":
 			{
-				"buffer_size": 5317,
-				"line_ending": "Unix"
+				"buffer_size": 5732,
+				"line_ending": "Windows"
 			}
 		},
 		{
 			"file": "base.c",
 			"settings":
 			{
-				"buffer_size": 3308,
+				"buffer_size": 3312,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "mychars.c",
+			"contents": " /*\n * ,--------------------------------------------------.           ,--------------------------------------------------.\n * |        |      |      |      |      |      |      |           |      |      |      |      |      |      |        |\n * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|\n   |SFT_ctr/t| ctr/f|ctr+w | MSUp | Home | End  |      |           |      |ctr+y |      |      |      |      |        |\n * |--------+------+------+------+------+------|space |           |      |------+------+------+------+------+--------|\n * |        |ctr+a |ctr/ML|sft/MD|alt/MR|alt+f |------|           |------| BASE |S_FUNC|      |      |      |        |\n * |--------+------+------+------+------+------|Enter|           |      |------+------+------+------+------+--------|\n * | ctr/s  |ctr+z |ctr+x |ctr+c |ctr+v |ctr+b |     |           |MousBt1|     |ARROW |SHIFT |MOUSE |MYCHAR|        |\n * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'\n *   |      |      |      |      |      |                                       |      |      |      |      |      |\n *   `----------------------------------'                                       `----------------------------------'\n *                                        ,-------------.       ,-------------.\n *                                        |      |      |       |      |      |\n *                                 ,------|------|------|       |------+------+------.\n *                                 |      |      |      |       |      |      |      |\n *                                 |      |BASE  |------|       |------|BASE  |      |\n *                                 |      |      |      |       |      |      |      |\n *                                 `--------------------'       `--------------------'\n */\n \n\n  \n// old 8; switch to the all layers \n  [ALL_LAYERS] = KEYMAP(\n\n\n    //left\n    HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n    LSFT(LCTL(KC_T)),LCTL(KC_F),LCTL(KC_W),KC_UP,KC_HOME,KC_END,KC_ENTER,KC_SPACE\n    HHHHHHH,LCTL(KC_A),CTL_T(KC_LEFT),SFT_T(KC_DOWN),ALT_T(KC_RIGHT),LALT(KC_F),\n    LCTL(KC_S),LCTL(KC_Z),LCTL(KC_X),LCTL(KC_C),LCTL(KC_V),LALT(KC_B),KC_ENTER,\n    HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n\n\n    HHHHHHH,HHHHHHH,\n    HHHHHHH,\n    HHHHHHH,TO(BASE),HHHHHHH,\n\n\n\n    //right\n    HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n    HHHHHHH,LCTL(KC_Y),HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n    TO(BASE),TO(SPEC_FUNC),HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n    KC_MS_BTN1,HHHHHHH,TO(ARROW),TO(SHIFT_KEYS),TO(MOUSE_MOVEMENT),TO(MYCHARS),HHHHHHH,\n    HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,HHHHHHH,\n\n\n\n    HHHHHHH,HHHHHHH,\n    HHHHHHH,\n    HHHHHHH,TO(BASE),HHHHHHH\n\n\n    ),\n",
+			"file": "switch_layers.c",
+			"file_size": 2860,
+			"file_write_time": 131452378888690982,
 			"settings":
 			{
-				"buffer_size": 2732,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "arrows.c",
-			"settings":
-			{
-				"buffer_size": 2818,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "shift.c",
-			"settings":
-			{
-				"buffer_size": 2782,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "mouse.c",
-			"settings":
-			{
-				"buffer_size": 2753,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keycode.h",
-			"settings":
-			{
-				"buffer_size": 11204,
+				"buffer_size": 2810,
 				"line_ending": "Windows"
 			}
 		},
@@ -76,20 +54,39 @@
 			}
 		},
 		{
-			"contents": "11212376\n\n\n\n\n\n11232\n\ngfggfggffg1gg12ddff34479\na1\nb2c3d24d5e678d29f7f8f9f0ff\n\n22221gg4[3224424444[2ereererrr\n222f2\n1\n[9e4eeeeeeeeee4eeeeeee4ee2wwwwwww22+9c-+-/+-/8888888888///---++==========++--///8zzzzzzzzzzzzz89999------//////8zzzzzzzzz]88z******!!!!!!!!!!!!!@!!!!!1\n\n1\n\n\n\n\n19\nFFF8!\n8!\n\n8!",
+			"contents": "/*\nCopyright 2012,2013 Jun Wako <wakojun@gmail.com>\n\nThis program is free software: you can redistribute it and/or modify\nit under the terms of the GNU General Public License as published by\nthe Free Software Foundation, either version 2 of the License, or\n(at your option) any later version.\n\nThis program is distributed in the hope that it will be useful,\nbut WITHOUT ANY WARRANTY; without even the implied warranty of\nMERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\nGNU General Public License for more details.\n\nYou should have received a copy of the GNU General Public License\nalong with this program.  If not, see <http://www.gnu.org/licenses/>.\n*/\n#include \"host.h\"\n#include \"keycode.h\"\n#include \"keyboard.h\"\n#include \"mousekey.h\"\n#include \"command.h\"\n#include \"led.h\"\n#include \"backlight.h\"\n#include \"action_layer.h\"\n#include \"action_tapping.h\"\n#include \"action_macro.h\"\n#include \"action_util.h\"\n#include \"action.h\"\n#include \"wait.h\"\n\n#ifdef DEBUG_ACTION\n#include \"debug.h\"\n#else\n#include \"nodebug.h\"\n#endif\n\nint tp_buttons;\n\n#ifdef FAUXCLICKY_ENABLE\n#include <fauxclicky.h>\n#endif\n\nvoid action_exec(keyevent_t event)\n{\n    if (!IS_NOEVENT(event)) {\n        dprint(\"\\n---- action_exec: start -----\\n\");\n        dprint(\"EVENT: \"); debug_event(event); dprintln();\n    }\n\n#ifdef FAUXCLICKY_ENABLE\n    if (IS_PRESSED(event)) {\n        FAUXCLICKY_ACTION_PRESS;\n    }\n    if (IS_RELEASED(event)) {\n        FAUXCLICKY_ACTION_RELEASE;\n    }\n    fauxclicky_check();\n#endif\n\n#ifdef ONEHAND_ENABLE\n    if (!IS_NOEVENT(event)) {\n        process_hand_swap(&event);\n    }\n#endif\n\n    keyrecord_t record = { .event = event };\n\n#if (defined(ONESHOT_TIMEOUT) && (ONESHOT_TIMEOUT > 0))\n    if (has_oneshot_layer_timed_out()) {\n        clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);\n    }\n    if (has_oneshot_mods_timed_out()) {\n        clear_oneshot_mods();\n    }\n#endif\n\n#ifndef NO_ACTION_TAPPING\n    action_tapping_process(record);\n#else\n    process_record(&record);\n    if (!IS_NOEVENT(record.event)) {\n        dprint(\"processed: \"); debug_record(record); dprintln();\n    }\n#endif\n}\n\n#ifdef ONEHAND_ENABLE\nbool swap_hands = false;\n\nvoid process_hand_swap(keyevent_t *event) {\n    static swap_state_row_t swap_state[MATRIX_ROWS];\n\n    keypos_t pos = event->key;\n    swap_state_row_t col_bit = (swap_state_row_t)1<<pos.col;\n    bool do_swap = event->pressed ? swap_hands :\n                                    swap_state[pos.row] & (col_bit);\n\n    if (do_swap) {\n        event->key = hand_swap_config[pos.row][pos.col];\n        swap_state[pos.row] |= col_bit;\n    } else {\n        swap_state[pos.row] &= ~(col_bit);\n    }\n}\n#endif\n\n#if !defined(NO_ACTION_LAYER) && defined(PREVENT_STUCK_MODIFIERS)\nbool disable_action_cache = false;\n\nvoid process_record_nocache(keyrecord_t *record)\n{\n    disable_action_cache = true;\n    process_record(record);\n    disable_action_cache = false;\n}\n#else\nvoid process_record_nocache(keyrecord_t *record)\n{\n    process_record(record);\n}\n#endif\n\n__attribute__ ((weak))\nbool process_record_quantum(keyrecord_t *record) {\n    return true;\n}\n\nvoid process_record(keyrecord_t *record)\n{\n    if (IS_NOEVENT(record->event)) { return; }\n\n    if(!process_record_quantum(record))\n        return;\n\n    action_t action = store_or_get_action(record->event.pressed, record->event.key);\n    dprint(\"ACTION: \"); debug_action(action);\n#ifndef NO_ACTION_LAYER\n    dprint(\" layer_state: \"); layer_debug();\n    dprint(\" default_layer_state: \"); default_layer_debug();\n#endif\n    dprintln();\n\n    process_action(record, action);\n}\n\nvoid process_action(keyrecord_t *record, action_t action)\n{\n    keyevent_t event = record->event;\n#ifndef NO_ACTION_TAPPING\n    uint8_t tap_count = record->tap.count;\n#endif\n\n    if (event.pressed) {\n        // clear the potential weak mods left by previously pressed keys\n        clear_weak_mods();\n    }\n\n#ifndef NO_ACTION_ONESHOT\n    bool do_release_oneshot = false;\n    // notice we only clear the one shot layer if the pressed key is not a modifier.\n    if (is_oneshot_layer_active() && event.pressed && !IS_MOD(action.key.code)) {\n        clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);\n        do_release_oneshot = !is_oneshot_layer_active();\n    }\n#endif\n\n    switch (action.kind.id) {\n        /* Key and Mods */\n        case ACT_LMODS:\n        case ACT_RMODS:\n            {\n                uint8_t mods = (action.kind.id == ACT_LMODS) ?  action.key.mods :\n                                                                action.key.mods<<4;\n                if (event.pressed) {\n                    if (mods) {\n                        if (IS_MOD(action.key.code) || action.key.code == KC_NO) {\n                            // e.g. LSFT(KC_LGUI): we don't want the LSFT to be weak as it would make it useless.\n                            // This also makes LSFT(KC_LGUI) behave exactly the same as LGUI(KC_LSFT).\n                            // Same applies for some keys like KC_MEH which are declared as MEH(KC_NO).\n                            add_mods(mods);\n                        } else {\n                            add_weak_mods(mods);\n                        }\n                        send_keyboard_report();\n                    }\n                    register_code(action.key.code);\n                } else {\n                    unregister_code(action.key.code);\n                    if (mods) {\n                        if (IS_MOD(action.key.code) || action.key.code == KC_NO) {\n                            del_mods(mods);\n                        } else {\n                            del_weak_mods(mods);\n                        }\n                        send_keyboard_report();\n                    }\n                }\n            }\n            break;\n#ifndef NO_ACTION_TAPPING\n        case ACT_LMODS_TAP:\n        case ACT_RMODS_TAP:\n            {\n                uint8_t mods = (action.kind.id == ACT_LMODS_TAP) ?  action.key.mods :\n                                                                    action.key.mods<<4;\n                switch (action.layer_tap.code) {\n    #ifndef NO_ACTION_ONESHOT\n                    case MODS_ONESHOT:\n                        // Oneshot modifier\n                        if (event.pressed) {\n                            if (tap_count == 0) {\n                                dprint(\"MODS_TAP: Oneshot: 0\\n\");\n                                register_mods(mods);\n                            } else if (tap_count == 1) {\n                                dprint(\"MODS_TAP: Oneshot: start\\n\");\n                                set_oneshot_mods(mods);\n                    #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1\n                            } else if (tap_count == ONESHOT_TAP_TOGGLE) {\n                                dprint(\"MODS_TAP: Toggling oneshot\");\n                                clear_oneshot_mods();\n                                set_oneshot_locked_mods(mods);\n                                register_mods(mods);\n                    #endif\n                            } else {\n                                register_mods(mods);\n                            }\n                        } else {\n                            if (tap_count == 0) {\n                                clear_oneshot_mods();\n                                unregister_mods(mods);\n                            } else if (tap_count == 1) {\n                                // Retain Oneshot mods\n                    #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1\n                                if (mods & get_mods()) {\n                                    clear_oneshot_locked_mods();\n                                    clear_oneshot_mods();\n                                    unregister_mods(mods);\n                                }\n                            } else if (tap_count == ONESHOT_TAP_TOGGLE) {\n                                // Toggle Oneshot Layer\n                    #endif\n                            } else {\n                                clear_oneshot_mods();\n                                unregister_mods(mods);\n                            }\n                        }\n                        break;\n    #endif\n                    case MODS_TAP_TOGGLE:\n                        if (event.pressed) {\n                            if (tap_count <= TAPPING_TOGGLE) {\n                                register_mods(mods);\n                            }\n                        } else {\n                            if (tap_count < TAPPING_TOGGLE) {\n                                unregister_mods(mods);\n                            }\n                        }\n                        break;\n                    default:\n                        if (event.pressed) {\n                            if (tap_count > 0) {\n#ifndef IGNORE_MOD_TAP_INTERRUPT\n                                if (record->tap.interrupted) {\n                                    dprint(\"mods_tap: tap: cancel: add_mods\\n\");\n                                    // ad hoc: set 0 to cancel tap\n                                    record->tap.count = 0;\n                                    register_mods(mods);\n                                } else\n#endif\n                                {\n                                    dprint(\"MODS_TAP: Tap: register_code\\n\");\n                                    register_code(action.key.code);\n                                }\n                            } else {\n                                dprint(\"MODS_TAP: No tap: add_mods\\n\");\n                                register_mods(mods);\n                            }\n                        } else {\n                            if (tap_count > 0) {\n                                dprint(\"MODS_TAP: Tap: unregister_code\\n\");\n                                unregister_code(action.key.code);\n                            } else {\n                                dprint(\"MODS_TAP: No tap: add_mods\\n\");\n                                unregister_mods(mods);\n                            }\n                        }\n                        break;\n                }\n            }\n            break;\n#endif\n#ifdef EXTRAKEY_ENABLE\n        /* other HID usage */\n        case ACT_USAGE:\n            switch (action.usage.page) {\n                case PAGE_SYSTEM:\n                    if (event.pressed) {\n                        host_system_send(action.usage.code);\n                    } else {\n                        host_system_send(0);\n                    }\n                    break;\n                case PAGE_CONSUMER:\n                    if (event.pressed) {\n                        host_consumer_send(action.usage.code);\n                    } else {\n                        host_consumer_send(0);\n                    }\n                    break;\n            }\n            break;\n#endif\n#ifdef MOUSEKEY_ENABLE\n        /* Mouse key */\n        case ACT_MOUSEKEY:\n            if (event.pressed) {\n                switch (action.key.code) {\n                    case KC_MS_BTN1:\n                        tp_buttons |= (1<<0);\n                        break;\n                    case KC_MS_BTN2:\n                        tp_buttons |= (1<<1);\n                        break;\n                    case KC_MS_BTN3:\n                        tp_buttons |= (1<<2);\n                        break;\n                    default:\n                        break;\n                }\n                mousekey_on(action.key.code);\n                mousekey_send();\n            } else {\n                switch (action.key.code) {\n                    case KC_MS_BTN1:\n                        tp_buttons &= ~(1<<0);\n                        break;\n                    case KC_MS_BTN2:\n                        tp_buttons &= ~(1<<1);\n                        break;\n                    case KC_MS_BTN3:\n                        tp_buttons &= ~(1<<2);\n                        break;\n                    default:\n                        break;\n                }\n                mousekey_off(action.key.code);\n                mousekey_send();\n            }\n            break;\n#endif\n#ifndef NO_ACTION_LAYER\n        case ACT_LAYER:\n            if (action.layer_bitop.on == 0) {\n                /* Default Layer Bitwise Operation */\n                if (!event.pressed) {\n                    uint8_t shift = action.layer_bitop.part*4;\n                    uint32_t bits = ((uint32_t)action.layer_bitop.bits)<<shift;\n                    uint32_t mask = (action.layer_bitop.xbit) ? ~(((uint32_t)0xf)<<shift) : 0;\n                    switch (action.layer_bitop.op) {\n                        case OP_BIT_AND: default_layer_and(bits | mask); break;\n                        case OP_BIT_OR:  default_layer_or(bits | mask);  break;\n                        case OP_BIT_XOR: default_layer_xor(bits | mask); break;\n                        case OP_BIT_SET: default_layer_and(mask); default_layer_or(bits); break;\n                    }\n                }\n            } else {\n                /* Layer Bitwise Operation */\n                if (event.pressed ? (action.layer_bitop.on & ON_PRESS) :\n                                    (action.layer_bitop.on & ON_RELEASE)) {\n                    uint8_t shift = action.layer_bitop.part*4;\n                    uint32_t bits = ((uint32_t)action.layer_bitop.bits)<<shift;\n                    uint32_t mask = (action.layer_bitop.xbit) ? ~(((uint32_t)0xf)<<shift) : 0;\n                    switch (action.layer_bitop.op) {\n                        case OP_BIT_AND: layer_and(bits | mask); break;\n                        case OP_BIT_OR:  layer_or(bits | mask);  break;\n                        case OP_BIT_XOR: layer_xor(bits | mask); break;\n                        case OP_BIT_SET: layer_and(mask); layer_or(bits); break;\n                    }\n                }\n            }\n            break;\n    #ifndef NO_ACTION_TAPPING\n        case ACT_LAYER_TAP:\n        case ACT_LAYER_TAP_EXT:\n            switch (action.layer_tap.code) {\n                case 0xe0 ... 0xef:\n                    /* layer On/Off with modifiers(left only) */\n                    if (event.pressed) {\n                        layer_on(action.layer_tap.val);\n                        register_mods(action.layer_tap.code & 0x0f);\n                    } else {\n                        layer_off(action.layer_tap.val);\n                        unregister_mods(action.layer_tap.code & 0x0f);\n                    }\n                    break;\n                case OP_TAP_TOGGLE:\n                    /* tap toggle */\n                    if (event.pressed) {\n                        if (tap_count < TAPPING_TOGGLE) {\n                            layer_invert(action.layer_tap.val);\n                        }\n                    } else {\n                        if (tap_count <= TAPPING_TOGGLE) {\n                            layer_invert(action.layer_tap.val);\n                        }\n                    }\n                    break;\n                case OP_ON_OFF:\n                    event.pressed ? layer_on(action.layer_tap.val) :\n                                    layer_off(action.layer_tap.val);\n                    break;\n                case OP_OFF_ON:\n                    event.pressed ? layer_off(action.layer_tap.val) :\n                                    layer_on(action.layer_tap.val);\n                    break;\n                case OP_SET_CLEAR:\n                    event.pressed ? layer_move(action.layer_tap.val) :\n                                    layer_clear();\n                    break;\n            #ifndef NO_ACTION_ONESHOT\n                case OP_ONESHOT:\n                    // Oneshot modifier\n                #if defined(ONESHOT_TAP_TOGGLE) && ONESHOT_TAP_TOGGLE > 1\n                    do_release_oneshot = false;\n                    if (event.pressed) {\n                        del_mods(get_oneshot_locked_mods());\n                        if (get_oneshot_layer_state() == ONESHOT_TOGGLED) {\n                            reset_oneshot_layer();\n                            layer_off(action.layer_tap.val);\n                            break;\n                        } else if (tap_count < ONESHOT_TAP_TOGGLE) {\n                            layer_on(action.layer_tap.val);\n                            set_oneshot_layer(action.layer_tap.val, ONESHOT_START);\n                        }\n                    } else {\n                        add_mods(get_oneshot_locked_mods());\n                        if (tap_count >= ONESHOT_TAP_TOGGLE) {\n                            reset_oneshot_layer();\n                            clear_oneshot_locked_mods();\n                            set_oneshot_layer(action.layer_tap.val, ONESHOT_TOGGLED);\n                        } else {\n                            clear_oneshot_layer_state(ONESHOT_PRESSED);\n                        }\n                    }\n                #else\n                    if (event.pressed) {\n                        layer_on(action.layer_tap.val);\n                        set_oneshot_layer(action.layer_tap.val, ONESHOT_START);\n                    } else {\n                        clear_oneshot_layer_state(ONESHOT_PRESSED);\n                        if (tap_count > 1) {\n                            clear_oneshot_layer_state(ONESHOT_OTHER_KEY_PRESSED);\n                        }\n                    }\n                #endif\n                    break;\n            #endif\n                default:\n                    /* tap key */\n                    if (event.pressed) {\n                        if (tap_count > 0) {\n                            dprint(\"KEYMAP_TAP_KEY: Tap: register_code\\n\");\n                            register_code(action.layer_tap.code);\n                        } else {\n                            dprint(\"KEYMAP_TAP_KEY: No tap: On on press\\n\");\n                            layer_on(action.layer_tap.val);\n                        }\n                    } else {\n                        if (tap_count > 0) {\n                            dprint(\"KEYMAP_TAP_KEY: Tap: unregister_code\\n\");\n                            if (action.layer_tap.code == KC_CAPS) {\n                                wait_ms(80);\n                            }\n                            unregister_code(action.layer_tap.code);\n                        } else {\n                            dprint(\"KEYMAP_TAP_KEY: No tap: Off on release\\n\");\n                            layer_off(action.layer_tap.val);\n                        }\n                    }\n                    break;\n            }\n            break;\n    #endif\n#endif\n        /* Extentions */\n#ifndef NO_ACTION_MACRO\n        case ACT_MACRO:\n            action_macro_play(action_get_macro(record, action.func.id, action.func.opt));\n            break;\n#endif\n#ifdef BACKLIGHT_ENABLE\n        case ACT_BACKLIGHT:\n            if (!event.pressed) {\n                switch (action.backlight.opt) {\n                    case BACKLIGHT_INCREASE:\n                        backlight_increase();\n                        break;\n                    case BACKLIGHT_DECREASE:\n                        backlight_decrease();\n                        break;\n                    case BACKLIGHT_TOGGLE:\n                        backlight_toggle();\n                        break;\n                    case BACKLIGHT_STEP:\n                        backlight_step();\n                        break;\n                    case BACKLIGHT_LEVEL:\n                        backlight_level(action.backlight.level);\n                        break;\n                }\n            }\n            break;\n#endif\n        case ACT_COMMAND:\n            break;\n#ifdef ONEHAND_ENABLE\n        case ACT_SWAP_HANDS:\n            switch (action.swap.code) {\n                case OP_SH_TOGGLE:\n                    if (event.pressed) {\n                        swap_hands = !swap_hands;\n                    }\n                    break;\n                case OP_SH_ON_OFF:\n                    swap_hands = event.pressed;\n                    break;\n                case OP_SH_OFF_ON:\n                    swap_hands = !event.pressed;\n                    break;\n                case OP_SH_ON:\n                    if (!event.pressed) {\n                        swap_hands = true;\n                    }\n                    break;\n                case OP_SH_OFF:\n                    if (!event.pressed) {\n                        swap_hands = false;\n                    }\n                    break;\n    #ifndef NO_ACTION_TAPPING\n                case OP_SH_TAP_TOGGLE:\n                    /* tap toggle */\n                    if (tap_count > 0) {\n                        if (!event.pressed) {\n                            swap_hands = !swap_hands;\n                        }\n                    } else {\n                        swap_hands = event.pressed;\n                    }\n                    break;\n                default:\n                    if (tap_count > 0) {\n                        if (event.pressed) {\n                            register_code(action.swap.code);\n                        } else {\n                            unregister_code(action.swap.code);\n                        }\n                    } else {\n                        swap_hands = event.pressed;\n                    }\n    #endif\n            }\n#endif\n#ifndef NO_ACTION_FUNCTION\n        case ACT_FUNCTION:\n            action_function(record, action.func.id, action.func.opt);\n            break;\n#endif\n        default:\n            break;\n    }\n\n#ifndef NO_ACTION_LAYER\n    // if this event is a layer action, update the leds\n    switch (action.kind.id) {\n        case ACT_LAYER:\n        #ifndef NO_ACTION_TAPPING\n        case ACT_LAYER_TAP:\n        case ACT_LAYER_TAP_EXT:\n        #endif\n            led_set(host_keyboard_leds());\n            break;\n        default:\n            break;\n    }\n#endif\n\n#ifndef NO_ACTION_ONESHOT\n    /* Because we switch layers after a oneshot event, we need to release the\n     * key before we leave the layer or no key up event will be generated.\n     */\n    if (do_release_oneshot && !(get_oneshot_layer_state() & ONESHOT_PRESSED )   ) {\n        record->event.pressed = false;\n        layer_on(get_oneshot_layer());\n        process_record(record);\n        layer_off(get_oneshot_layer());\n    }\n#endif\n}\n\n\n\n\n/*\n * Utilities for actions.\n */\nvoid register_code(uint8_t code)\n{\n    if (code == KC_NO) {\n        return;\n    }\n\n#ifdef LOCKING_SUPPORT_ENABLE\n    else if (KC_LOCKING_CAPS == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        // Resync: ignore if caps lock already is on\n        if (host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK)) return;\n#endif\n        add_key(KC_CAPSLOCK);\n        send_keyboard_report();\n        del_key(KC_CAPSLOCK);\n        send_keyboard_report();\n    }\n\n    else if (KC_LOCKING_NUM == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        if (host_keyboard_leds() & (1<<USB_LED_NUM_LOCK)) return;\n#endif\n        add_key(KC_NUMLOCK);\n        send_keyboard_report();\n        del_key(KC_NUMLOCK);\n        send_keyboard_report();\n    }\n\n    else if (KC_LOCKING_SCROLL == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        if (host_keyboard_leds() & (1<<USB_LED_SCROLL_LOCK)) return;\n#endif\n        add_key(KC_SCROLLLOCK);\n        send_keyboard_report();\n        del_key(KC_SCROLLLOCK);\n        send_keyboard_report();\n    }\n#endif\n\n    else if IS_KEY(code) {\n        // TODO: should push command_proc out of this block?\n        if (command_proc(code)) return;\n\n#ifndef NO_ACTION_ONESHOT\n/* TODO: remove\n        if (oneshot_state.mods && !oneshot_state.disabled) {\n            uint8_t tmp_mods = get_mods();\n            add_mods(oneshot_state.mods);\n\n            add_key(code);\n            send_keyboard_report();\n\n            set_mods(tmp_mods);\n            send_keyboard_report();\n            oneshot_cancel();\n        } else\n*/\n#endif\n        {\n            add_key(code);\n            send_keyboard_report();\n        }\n    }\n    else if IS_MOD(code) {\n        add_mods(MOD_BIT(code));\n        send_keyboard_report();\n    }\n    else if IS_SYSTEM(code) {\n        host_system_send(KEYCODE2SYSTEM(code));\n    }\n    else if IS_CONSUMER(code) {\n        host_consumer_send(KEYCODE2CONSUMER(code));\n    }\n}\n\nvoid unregister_code(uint8_t code)\n{\n    if (code == KC_NO) {\n        return;\n    }\n\n#ifdef LOCKING_SUPPORT_ENABLE\n    else if (KC_LOCKING_CAPS == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        // Resync: ignore if caps lock already is off\n        if (!(host_keyboard_leds() & (1<<USB_LED_CAPS_LOCK))) return;\n#endif\n        add_key(KC_CAPSLOCK);\n        send_keyboard_report();\n        del_key(KC_CAPSLOCK);\n        send_keyboard_report();\n    }\n\n    else if (KC_LOCKING_NUM == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        if (!(host_keyboard_leds() & (1<<USB_LED_NUM_LOCK))) return;\n#endif\n        add_key(KC_NUMLOCK);\n        send_keyboard_report();\n        del_key(KC_NUMLOCK);\n        send_keyboard_report();\n    }\n\n    else if (KC_LOCKING_SCROLL == code) {\n#ifdef LOCKING_RESYNC_ENABLE\n        if (!(host_keyboard_leds() & (1<<USB_LED_SCROLL_LOCK))) return;\n#endif\n        add_key(KC_SCROLLLOCK);\n        send_keyboard_report();\n        del_key(KC_SCROLLLOCK);\n        send_keyboard_report();\n    }\n#endif\n\n    else if IS_KEY(code) {\n        del_key(code);\n        send_keyboard_report();\n    }\n    else if IS_MOD(code) {\n        del_mods(MOD_BIT(code));\n        send_keyboard_report();\n    }\n    else if IS_SYSTEM(code) {\n        host_system_send(0);\n    }\n    else if IS_CONSUMER(code) {\n        host_consumer_send(0);\n    }\n}\n\nvoid register_mods(uint8_t mods)\n{\n    if (mods) {\n        add_mods(mods);\n        send_keyboard_report();\n    }\n}\n\nvoid unregister_mods(uint8_t mods)\n{\n    if (mods) {\n        del_mods(mods);\n        send_keyboard_report();\n    }\n}\n\nvoid clear_keyboard(void)\n{\n    clear_mods();\n    clear_keyboard_but_mods();\n}\n\nvoid clear_keyboard_but_mods(void)\n{\n    clear_weak_mods();\n    clear_macro_mods();\n    clear_keys();\n    send_keyboard_report();\n#ifdef MOUSEKEY_ENABLE\n    mousekey_clear();\n    mousekey_send();\n#endif\n#ifdef EXTRAKEY_ENABLE\n    host_system_send(0);\n    host_consumer_send(0);\n#endif\n}\n\nbool is_tap_key(keypos_t key)\n{\n    action_t action = layer_switch_get_action(key);\n\n    switch (action.kind.id) {\n        case ACT_LMODS_TAP:\n        case ACT_RMODS_TAP:\n        case ACT_LAYER_TAP:\n        case ACT_LAYER_TAP_EXT:\n            switch (action.layer_tap.code) {\n                case 0x00 ... 0xdf:\n                case OP_TAP_TOGGLE:\n                case OP_ONESHOT:\n                    return true;\n            }\n            return false;\n        case ACT_SWAP_HANDS:\n            switch (action.swap.code) {\n                case 0x00 ... 0xdf:\n                case OP_SH_TAP_TOGGLE:\n                    return true;\n            }\n            return false;\n        case ACT_MACRO:\n        case ACT_FUNCTION:\n            if (action.func.opt & FUNC_TAP) { return true; }\n            return false;\n    }\n    return false;\n}\n\n\n/*\n * debug print\n */\nvoid debug_event(keyevent_t event)\n{\n    dprintf(\"%04X%c(%u)\", (event.key.row<<8 | event.key.col), (event.pressed ? 'd' : 'u'), event.time);\n}\noop11\n\nvoid debug_record(keyrecord_t record)\n{\n    debug_event(record.event);\n#ifndef NO_ACTION_TAPPING\n    dprintf(\":%u%c\", record.tap.count, (record.tap.interrupted ? '-' : ' '));\n#endif\n}\n\nvoid debug_action(action_t action)\n{\n    switch (action.kind.id) {\n        case ACT_LMODS:             dprint(\"ACT_LMODS\");             break;\n        case ACT_RMODS:             dprint(\"ACT_RMODS\");             break;\n        case ACT_LMODS_TAP:         dprint(\"ACT_LMODS_TAP\");         break;\n        case ACT_RMODS_TAP:         dprint(\"ACT_RMODS_TAP\");         break;\n        case ACT_USAGE:             dprint(\"ACT_USAGE\");             break;\n        case ACT_MOUSEKEY:          dprint(\"ACT_MOUSEKEY\");          break;\n        case ACT_LAYER:             dprint(\"ACT_LAYER\");             break;\n        case ACT_LAYER_TAP:         dprint(\"ACT_LAYER_TAP\");         break;\n        case ACT_LAYER_TAP_EXT:     dprint(\"ACT_LAYER_TAP_EXT\");     break;\n        case ACT_MACRO:             dprint(\"ACT_MACRO\");             break;\n        case ACT_COMMAND:           dprint(\"ACT_COMMAND\");           break;\n        case ACT_FUNCTION:          dprint(\"ACT_FUNCTION\");          break;\n        case ACT_SWAP_HANDS:        dprint(\"ACT_SWAP_HANDS\");        break;\n        default:                    dprint(\"UNKNOWN\");               break;\n    }\n    dprintf(\"[%X:%02X]\", action.kind.param>>8, action.kind.param&0xff);\n}\n",
+			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.c",
+			"file_size": 29169,
+			"file_write_time": 131452327151143305,
 			"settings":
 			{
-				"buffer_size": 290,
+				"buffer_size": 28332,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_tapping.c",
+			"settings":
+			{
+				"buffer_size": 13928,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"contents": "11212376\n\n\n\n\n\n11232\n\ngfggfggffg1gg12ddff34479\na1\nb2c3d24d5e678d29f7f8f9f0ff\n\n\n\n\nadfasdf\nf\n\n\n22221gg4[3224424444[2ereererrr\n222f2a\n1\n[9e4eeeeeeeeee4eeeeeee4ee2wwwwwww22+9c-+-/+-/8888888888///---++==========++--///8zzzzzzzzzzzzz89999------//////8z#)(#$()#$dffasfaf46546546548548zzzzzzzz]88z******!!!!!!!!!!!!!@!!!!!1\nsddfasd\n1'''\n123456789a\na\n''''adfddddrfdsfef\nafasflljlj9jlj97975\n\nzzz''''zzzzz''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''zz````\n\n446542431ljlkj464464ljlj6464644jljlk546486446j846'''\n'']]aaddf\na\na\nfsdfsfd\n\n]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]#(){{$){$$)$)$){64864`(`aazzzzzaaz''szz''''''\nd\n111   \nddf\n\n\n\n\n|fljf9jl9j444[9w59o?9fg7g645jfkDDDFSEKIL\n\nK\n\nleijfsedk\n\nmmmmmmmmmmmmmmmmmmbvcxzmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm\ndkeeej\n4{9([9{[{9\n99999AAAAAAAAA\na\nAjjlo9./m.5m/m/kkjmnnjnnjnnjmjmjnjnjnjhnjn:jn:jn:hnjjn:jm:j:j)):::::::                 \n            \n\n\nddddfsfs\n\nrpk|||||||ppj\niilj\n\n\n\n\n\n             iiljl\n             j\n\nj))))j\n\n)))\n\n\n\n\n\nujlu)jj)j))))::)))hhyjiuyjujuyjhjnjnjh::j:j:j)::::j::))j)j:)\n))\n):\n\n:\n:::j::::::\n\n)\n\n\n\n\n|\n|||\n||\n||\n|\n|jl\nj\nj|\njmojoi.ioi../\nl\njio.ojllj.oij.jiojjoil\n\neijiejJisfjliefIefjielseaaeojoeiOijejjljjoiejlIeljfeFlsa\niffeiei jfjei sjj e il jjj   jl      \n\n\n\nd\n\nfdsfff\n\n\n\nff\n2\n1a\naaa\n\n'''''''zzaafzzz''''''''''''''''\n\n\nzzz'''`````````````````````````````````////]]]]]/////]]po;;;//;//]]]];/]]];/aaz\n\n\njljljl''\n\n\naazz''ssasazz''zzaazz''zssaazz'''fsljfielsfjie\nj\nfielsf\nmlsfejli\nzjflefj\nzj\nlwfz\nm'mfiw'fw''\n'aza''zz''eslxxxxsxessisxxxx)}}}}\n\n)$)$)$4864848$()jlijij'\n64()$()#864864ijlijlij46848648liji'\n\n''\n\n)$(688684684)\n4868486jlijlijl464864'ijlj\n`''\n`''\n`'\n'\n&aaaaaaaa\n\n54322101234567890\n19&((&\n&ee",
+			"settings":
+			{
+				"buffer_size": 1865,
 				"line_ending": "Windows",
 				"name": "11212376"
 			}
 		},
 		{
-			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.h",
+			"file": "compile.sh",
 			"settings":
 			{
-				"buffer_size": 2573,
-				"line_ending": "Windows"
+				"buffer_size": 652,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -101,42 +98,18 @@
 			}
 		},
 		{
-			"contents": "/* Keymap 7: function / navigation / mouse layer\n *\n * ,--------------------------------------------------.                                  ,--------------------------------------------------.\n * |        |  F1  |  F2  |  F3  |  F4  |  F5  |VolMut|                                  |      |  F6  |  F7  |  F8  |  F9  |  F10 |        |\n * |--------+------+------+------+------+-------------|                                  |------+------+------+------+------+------+--------|\n * |        | Next |LClick|  Up  |RClick| WhUp |VolDwn|                                  |      | PgUp | Home |  Up  |  End |  F11 |        |\n * |--------+------+------+------+------+------|      |                                  |      |------+------+------+------+------+--------|\n * |        | Prev | Left | Down | Right|WhDown|------|                                  |------| PgDn | Left | Down | Right|  F12 |        |\n * |--------+------+------+------+------+------| VolUp|                                  |      |------+------+------+------+------+--------|\n * |        | Undo |  Cut | Copy | Paste|      |      |                                  |      |      |      |      |      |      |        |\n * `--------+------+------+------+------+-------------,-------------.      ,-------------`-------------+------+------+------+------+--------'\n *   |      |      |      |      |      |             |      |      |      |      |      |             |      |      |      |      |      |\n *   `----------------------------------'      ,------|------|------|      |------+------+------.      `----------------------------------'\n *                                             |      |      |      |      |      |      |      |\n *                                             |      |      |------|      |------|      |      |\n *                                             |      |      |      |      |      |      |      |\n *                                             `--------------------'      `--------------------'\n */\n[FNAV] = KEYMAP(\n// Left hand\nKC_NO,		KC_F1,		KC_F2,		KC_F3,		KC_F4,		KC_F5,		KC_MUTE,\nKC_NO,		KC_MS_BTN5,	KC_MS_BTN1,	KC_MS_UP,	KC_MS_BTN2,	KC_MS_WH_UP,	KC_VOLU,\nKC_NO,		KC_MS_BTN4,	KC_MS_LEFT,	KC_MS_DOWN,	KC_MS_RIGHT,	KC_MS_WH_DOWN,\nKC_NO,		KC_UNDO,	KC_CUT,		KC_COPY,	KC_PASTE,	KC_NO,		KC_VOLD,\nKC_NO,		KC_NO,		KC_TRNS,	KC_TRNS,	KC_TRNS,\n														KC_TRNS,	KC_TRNS,\n																KC_TRNS,\n												KC_NO,		KC_TRNS,	KC_TRNS,\n// Right hand\n				KC_NO,		KC_F6,		KC_F7,		KC_F8,		KC_F9,		KC_F10,		KC_NO,\n				KC_NO,		KC_PGUP,	KC_HOME,	KC_UP,		KC_END,		KC_F11,		KC_NO,\n						KC_PGDOWN,	KC_LEFT,	KC_DOWN,	KC_RIGHT,	KC_F12,		KC_NO,\n				KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,		KC_NO,\n								KC_TRNS,	KC_TRNS,	KC_TRNS,	KC_NO,		KC_NO,\nKC_TRNS,	KC_TRNS,\nKC_TRNS,\nKC_TRNS,	KC_TRNS,	KC_NO),\n			",
+			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.h",
 			"settings":
 			{
-				"buffer_size": 2804,
+				"buffer_size": 2888,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "switch_layers.c",
+			"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keyboard.h",
 			"settings":
 			{
-				"buffer_size": 2788,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "compile.sh",
-			"settings":
-			{
-				"buffer_size": 611,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "config.h",
-			"settings":
-			{
-				"buffer_size": 291,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "Makefile",
-			"settings":
-			{
-				"buffer_size": 431,
+				"buffer_size": 2222,
 				"line_ending": "Windows"
 			}
 		}
@@ -178,14 +151,49 @@
 	"expanded_folders":
 	[
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado",
-		"/C/Users/rado/Desktop/ergodox/keymaps/333fred",
-		"/C/Users/rado/Desktop/ergodox/keymaps/algernon",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/default-rado",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common"
 	],
 	"file_history":
 	[
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_util.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/command.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_util.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/debug.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/debug.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/host.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/host.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/report.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/report.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keycode.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/keymap_common.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/keycode_config.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/keycode_config.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_code.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/config.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/Makefile",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/switch_layers.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.c",
+		"/C/Users/rado/Desktop/ergodox/keymaps/alphadox/Makefile",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/default-rado/Makefile",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/ez/matrix.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/mychars.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/mouse.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/shift.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/arrows.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/print.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/default-rado/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/jd45/keymaps/blakedietz/keymap.c",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/jd45/keymaps/blakedietz/README.md",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/quantum_keycodes.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/jd45/keymaps/blakedietz/config.h",
+		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/default-rado/config.h",
 		"/C/Users/rado/Desktop/ergodox/keymaps/german-manuneo/compile_keymap.py",
 		"/C/Users/rado/Desktop/ergodox/keymaps/erez_experimental/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/333fred/keymap.c",
@@ -194,9 +202,6 @@
 		"/C/Users/rado/Desktop/ergodox/keymaps/default/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/coderkun_neo2/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/bryan/keymap.c",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_util.c",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_util.h",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_code.h",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/amj60/keymaps/iso_split_rshift/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/algernon/Makefile",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/make_instructions.md",
@@ -205,8 +210,6 @@
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/clueboard/keymaps/caps_fn/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/amj60/keymaps/maximized/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/docs/keymap.md",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/report.c",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/report.h",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/qmk_firmware/tmk_core/common/keycode.h",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/keyboards/ergodox/keymaps/rado/qmk_firmware/quantum/quantum_keycodes.h",
 		"/C/Users/rado/Desktop/ergodox/special_functions.c",
@@ -236,7 +239,6 @@
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_tapping.c",
 		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/rushian-uni-books.txt",
 		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keyboard.h",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.h",
 		"/C/Users/rado/Desktop/ergodox/keymaps/teckinesis/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/osx_de_experimental/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/jacobono/keymap.c",
@@ -254,7 +256,6 @@
 		"/C/Users/rado/Desktop/ergodox/keymaps/techtomas/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/tm2030/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/tkuichooseyou/keymap.c",
-		"/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keycode.h",
 		"/C/Users/rado/Desktop/ergodox/keymaps/xyverz/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/plover/keymap.c",
 		"/C/Users/rado/Desktop/ergodox/keymaps/msc/keymap.c",
@@ -285,35 +286,7 @@
 		"/C/Users/rado/Dropbox/box/__private/_family/andrzej/poznan-warsztat.txt",
 		"/C/Users/rado/Dropbox/box/__private/anrzej/monika-andrzej-chat.txt",
 		"/C/Users/rado/Dropbox/box/__private/elearning/software/python/python-visualization.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/software/python/python-visualization2.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/angular/web-Bootstrap-Angular-book.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/machine-learning/python-book-safari.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/ansible/cert-redhat.txt",
-		"/C/Users/rado/Dropbox/box/__private/anrzej/istqb-testing-exam/mynotes.txt.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/youtube-videos.txt",
-		"/C/Users/rado/Dropbox/box/__private/lukasz.txt",
-		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/monitor/monitor-size-comparison.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/data-science-bigdata/portal-news-conference-videos.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/Bayesian-Data-Analysis.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/statistics-probability/Bayesian Statistics/mynotes.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/ai-artificial_intelligence/machine-learning/youtube-udacity.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/technology-it/angular/angular2.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/data-science-bigdata/panda-numpy-videos-linkedin.txt",
-		"/C/Users/rado/Dropbox/box/__private/elearning/safari/safari/book-reading-todo/statictics-panda/panda-video.txt",
-		"/C/Users/rado/Dropbox/docs/linux/trackpad/mynotes.txt",
-		"/C/Users/rado/Dropbox/docs/laptop.p70/new-delivered-laptop/HWMonitor.txt",
-		"/C/Users/rado/Desktop/HWMonitor.txt",
-		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/mysql-client-bestpractice.txt",
-		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/ergotron/mynotes.txt",
-		"/C/Users/rado/Dropbox/box/__private/shopping.hardware/ergotron.dual-arm/addon/mynotes.txt",
-		"/C/Users/rado/Dropbox/box/__private/shopping/laptop-lenovo-p70/price-comparison.txt",
-		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/nova-show-hv-info.txt",
-		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/show-table-sql-sdl.txt",
-		"/C/Users/rado/Dropbox/box/_cloud_ops/products/mysql/show-sql.txt",
-		"/C/Users/rado/Dropbox/docs/laptop.p70/monitor-docking-station.txt",
-		"/C/Users/rado/Dropbox/docs/box/printing-book/mynotes.txt",
-		"/C/Users/rado/Dropbox/docs/box/mynotes.txt",
-		"/C/Users/rado/Dropbox/docs/mbank/przelew-na-emax-usd-w-dolarach-z-etrade.txt"
+		"/C/Users/rado/Dropbox/box/__private/elearning/software/python/python-visualization2.txt"
 	],
 	"find":
 	{
@@ -324,6 +297,18 @@
 		"height": 138.0,
 		"where_history":
 		[
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\tmk_core",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\keyboards\\ergodox,-keymap.c,-config.h",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\keyboards\\ergodox,-keymap.c",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\keyboards\\ergodox",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
+			"C:\\Users\\rado\\Desktop\\ergodox\\keymaps",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\docs",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware,-keymap.c",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware,-keymaps*",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware,-keymap.c",
+			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
 			"C:\\Users\\rado\\Desktop\\ergodox\\keymaps",
 			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware\\docs",
 			"C:\\Users\\rado\\Desktop\\ergodox\\qmk_firmware",
@@ -344,9 +329,39 @@
 	},
 	"find_state":
 	{
-		"case_sensitive": true,
+		"case_sensitive": false,
 		"find_history":
 		[
+			"ONESHOT_PRESSED",
+			"clear_keys",
+			"\nclear_keys",
+			"add_mods",
+			"register_mods",
+			"debug_config",
+			"Tapping: First",
+			"TAPPING_KEY",
+			"layer_debug",
+			"ONESHOT_TIMEOUT",
+			"keyevent_t",
+			"layer_switch",
+			"layer_state_set",
+			"debug_record",
+			"clear_keyboard_but_mods",
+			"rgb",
+			"power",
+			"reset",
+			"RGBLIGHT_ENABLE ",
+			"size",
+			"debug",
+			"DEBUG",
+			"layer_debug",
+			"default_layer_debug",
+			"debug",
+			"layer_state_set_kb",
+			"default_layer_state_set_kb",
+			"layer_state_set",
+			"layer_debug",
+			"default_layer_set",
 			"keycode",
 			"case",
 			"layer_mychars_relea",
@@ -436,7 +451,7 @@
 	"groups":
 	[
 		{
-			"selected": 1,
+			"selected": 2,
 			"sheets":
 			[
 				{
@@ -445,15 +460,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 5317,
+						"buffer_size": 5732,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1125,
-								1125
+								812,
+								812
 							]
 						],
 						"settings":
@@ -463,10 +478,10 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 1143.0,
+						"translation.y": 401.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 2,
 					"type": "text"
 				},
 				{
@@ -475,15 +490,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3308,
+						"buffer_size": 3312,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2535,
-								2535
+								3312,
+								3312
 							]
 						],
 						"settings":
@@ -493,164 +508,44 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 116.0,
+						"translation.y": 430.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "switch_layers.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2810,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2121,
+								2121
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 87.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
 					"type": "text"
 				},
 				{
-					"buffer": 2,
-					"file": "mychars.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2732,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								853,
-								856
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 3,
-					"type": "text"
-				},
-				{
 					"buffer": 3,
-					"file": "arrows.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2818,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2401,
-								2401
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 14,
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "shift.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2782,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1435,
-								1435
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 12,
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "mouse.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2753,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								2353,
-								2353
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 13,
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keycode.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 11204,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								5680,
-								5759
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 4769.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 4,
-					"type": "text"
-				},
-				{
-					"buffer": 7,
 					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/quantum/quantum_keycodes.h",
 					"semi_transient": false,
 					"settings":
@@ -662,8 +557,8 @@
 						"selection":
 						[
 							[
-								0,
-								0
+								8551,
+								8551
 							]
 						],
 						"settings":
@@ -673,7 +568,67 @@
 							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
-						"translation.y": 14282.0,
+						"translation.y": 11244.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28332,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								21912,
+								21897
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 16153.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_tapping.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 13928,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2599,
+								2599
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1853.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 5,
@@ -682,23 +637,23 @@
 			]
 		},
 		{
-			"selected": 0,
+			"selected": 4,
 			"sheets":
 			[
 				{
-					"buffer": 8,
+					"buffer": 6,
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 290,
+						"buffer_size": 1865,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								273,
-								273
+								609,
+								609
 							]
 						],
 						"settings":
@@ -707,142 +662,27 @@
 							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 2,
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.h",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2573,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1455,
-								1455
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C++.sublime-syntax"
-						},
-						"translation.x": -0.0,
-						"translation.y": 635.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 6,
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 4907,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								1821,
-								1830
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 1807.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 9,
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2804,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								400,
-								400
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 869.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 8,
 					"type": "text"
 				},
 				{
-					"buffer": 12,
-					"file": "switch_layers.c",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 2788,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								3,
-								3
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/C++/C.sublime-syntax",
-							"tab_size": 4,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 15,
-					"type": "text"
-				},
-				{
-					"buffer": 13,
+					"buffer": 7,
 					"file": "compile.sh",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 611,
+						"buffer_size": 652,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								414,
-								414
+								132,
+								132
 							]
 						],
 						"settings":
@@ -854,24 +694,113 @@
 						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 10,
+					"stack_index": 11,
 					"type": "text"
 				},
 				{
-					"buffer": 14,
-					"file": "config.h",
+					"buffer": 8,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action_layer.c",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 291,
+						"buffer_size": 4907,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								291,
-								291
+								4906,
+								4906
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4621.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.c",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 28332,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								25740,
+								25740
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 20336.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/action.h",
+					"semi_transient": true,
+					"settings":
+					{
+						"buffer_size": 2888,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2265,
+								2374
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 1711.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "/C/Users/rado/Desktop/ergodox/qmk_firmware/tmk_core/common/keyboard.h",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2222,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1114,
+								1114
 							]
 						],
 						"settings":
@@ -883,34 +812,6 @@
 						"zoom_level": 1.0
 					},
 					"stack_index": 7,
-					"type": "text"
-				},
-				{
-					"buffer": 15,
-					"file": "Makefile",
-					"semi_transient": false,
-					"settings":
-					{
-						"buffer_size": 431,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								374,
-								374
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Makefile/Makefile.sublime-syntax"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"stack_index": 11,
 					"type": "text"
 				}
 			]
@@ -944,7 +845,7 @@
 		"cols":
 		[
 			0.0,
-			0.60503720664,
+			0.5062965083,
 			1.0
 		],
 		"rows":
@@ -989,12 +890,12 @@
 	},
 	"select_symbol":
 	{
-		"height": 343.0,
+		"height": 588.0,
 		"last_filter": "",
 		"selected_items":
 		[
 		],
-		"width": 612.0
+		"width": 1402.0
 	},
 	"selected_group": 0,
 	"settings":

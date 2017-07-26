@@ -23,7 +23,7 @@
   [BASE] = KEYMAP(
 
     //left
-    KC_ESCAPE,       KC_1,       KC_2,        KC_HASH,       KC_4,            KC_5,         KC_6, 
+    KC_GESC,       KC_1,       KC_2,        KC_HASH,       KC_4,            KC_5,         KC_6, 
     KC_LGUI,         LGUI_T(KC_Q),C_S_T(KC_W), KC_E,         KC_R,            KC_T,         KC_LPRN,
     ALT_T(KC_TAB),   KC_A,       CTL_T(KC_S), LSFT_T(KC_D),   ALT_T(KC_F),     KC_G,
     OSL(SHIFT_KEYS), KC_Z,       KC_X,        KC_C,          KC_V,            KC_B,         KC_MINUS,

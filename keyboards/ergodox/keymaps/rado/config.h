@@ -3,6 +3,8 @@
 
 #include "../../config.h"
 
+#define PREVENT_STUCK_MODIFIERS
+
 //#define NO_DEBUG
 // #define NO_PRINT
 #define DEBUG_ACTION

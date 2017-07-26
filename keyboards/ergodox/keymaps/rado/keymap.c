@@ -83,7 +83,16 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   uint16_t aux_keycode=keycode & 0x00ff;
-  uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
+  // uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
+
+  // uprintf("(");
+  // default_layer_debug();
+  // uprintf(")\n");
+
+  // uprintf("(");
+  // debug_record(*record);
+  // uprintf(")\n");
+
 
   if (layer_mychars==1 ) {
     switch (aux_keycode) {
@@ -98,11 +107,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case KC_8:
       case KC_9:
         if (record->event.pressed) {
-          uprintf("r pressed\n");
+          // uprintf("r pressed\n");
           register_code(keycode);
           send_keyboard_report();
         } else {
-          uprintf("r release\n");
+          // uprintf("r release\n");
           unregister_code(keycode);
           if ( layer_mychars_release ) {
             layer_mychars_release=0;
@@ -119,9 +128,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   } else if (layer_mychars == 255 ) {
     layer_mychars=0;
-    uprintf("exit layer, release key catching\n");
+    // uprintf("exit layer, release key catching\n");
   } else {
-    uprintf("rrr\n");
+    // uprintf("rrr\n");
     switch (keycode) {
       // dynamically generate these.
       case EPRM:
