@@ -812,7 +812,6 @@ void debug_event(keyevent_t event)
 {
     dprintf("%04X%c(%u)", (event.key.row<<8 | event.key.col), (event.pressed ? 'd' : 'u'), event.time);
 }
-oop11
 
 void debug_record(keyrecord_t record)
 {
