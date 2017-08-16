@@ -1,12 +1,10 @@
 
 Arensito layout for chars
-
 9 7 5 3   %      $   2 4 6 8 
 / = * 1   \      _   0 : ; # 
 < > ^ +   |      @   [ ] { } 
 
 https://github.com/ojbucao/Workman/tree/master/mac
-
     ~ `               # ^
 % & ? +   @ 	 $   _ [ ] !
 / ( = 0   {      }   1 * ) -
@@ -32,7 +30,86 @@ Big Key SPACE SHIFT BACKSPACE ENTER TAB
 
 rado:
 
-9 7 5 3   %      $   2 4 6 8 
-/ = * 1   \      _   0 : ; # 
-< > ^ +   |      @   [ ] { } 
+_ . ' ) ( , " = : 0 # - 1 2 > [ ] 
+- & _ " ' / $ 
+_ ( ) . , ' = - / " ; * : > $ 0 # { }
 
+vvv sumary, 21 chars
+
+" # $ & ' ( ) * , - . / : ; = > [ ] _ { } 
+
+prio
+
+. _ : , " # $ & ' ( * - / ; = > [ {  
+) } ]
+
++ 
+%
+
+
+'%s:%s:%s' 
+ '%08x' % self._thread_local.nonce_count
+   base += ', qop="auth", nc=%s, cnonce="%s"' % (ncvalue, cnonce)
+               noncebit = "%s:%s:%s:%s:%s" % (
+"3.0.0. Please convert the object you've passed in ({0!r}) to "
+ >>> s.mount('http://', a) 
+ "invalid path: {0}".format(cert_loc))
+   # For Python 2.7+ versions, use buffering of HTTP
+     low_conn.send(hex(len(i))[2:].encode('utf-8'))
+                        low_conn.send(b'\r\n')
+                        low_conn.send(i)
+                        low_conn.send(b'\r\n')
+                    low_conn.send(b'0\r\n\r\n')
+                    # TODO: Remove this in 3.0.0: see #2811
+                     # This branch is for urllib3 v1.22 and later.
+                     # > -- sigmavirus24 in https://github.com/requests/requests-kerberos/issues/1
+#: Python 3.x?
+is_py3 = (_ver[0] == 3)
+  time_template = '%a, %d-%b-%Y %H:%M:%S GMT'
+   regex = re.compile('(?:.*,)*\s*Negotiate\s*([^,]*),?', r
+   kerb_spn = "{0}@{1}".format(self.service, kerb_host)
+           log.debug("handle_other(): Handling: %d" % response.status_code)
+__version__ = '0.11.0'
+
+I'm not sure :) ?
+
+python:
+- '2.7'
+- '2.6'
+- '3.2'
+- '3.3'
+- '3.4'
+- '3.5'
+
+    gitlog=$(git log v$previousVersion.. --oneline --pretty=format:'* %s (%h)' | grep -v "Merge")
+    today=$(date "+(%B %m, %Y)")
+
+            line = "# Copyright " + year + " " + name
+        line += (79 - len(line)) * " " + "#"
+
+for line in subprocess.check_output(["git", "log", "--format=format:%ad %an <%ae>", "--date=short", "--", filename]).split("\n"):
+        year = line[0:4]
+        name = line[11:]
+  if len(line) > 0 and line[0] != "#":
+   ('POST', '/testurl', '1.1')
+       m = re.match(r'(' + methods + ')\s+(.*)\s+HTTP/(1.[0|1])', s, re.I)
+
+MULTILINE_ANY_REGEX = re.compile(r'.*', re.M)
+ self.path.split("?", 1)[-1]
+ ('organizationName', '*.%s' % self._host),
+        if len(parts) == 2:
+             frame = inspect.stack()[0][0]
+    return [(2, 1, 6, '', (host, port))]
+        return '127.0.0.1'
+            'HTTP/1.1 %d %s' % (status, STATUSES[status]),
+ '{0}: {1}'.format(k, v),
+         fmt = ", ".join(['%s="%s"' % (k, getattr(self, k, '')) for k in attrs])
+        if self.current_entries[method] != -1:
+                if uri_is_string and re.search(r'^\w+://[^/]+[.]\w{2,}$', uri):
+         mod = mod_config((keycode >> 0x8) & 0x1F);
+    return pgm_read_word(&keymaps[(layer)][(key.row)][(key.col)]);
+
+       tp_buttons |= (1<<2);
+tp_buttons &= ~(1<<0);
+for (int8_t i = 31; i >= 0; i--) {
+        if (layers & (1UL<<i)) {

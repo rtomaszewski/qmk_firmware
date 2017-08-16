@@ -1,12 +1,13 @@
 
-# 
-# SLEEP_LED_ENABLE=no
+
 
 COMMAND_ENABLE=yes
 # BOOTMAGIC_ENABLE=yes
 DEBUG_ENABLE = yes
 CONSOLE_ENABLE = yes
-#TAP_DANCE_ENABLE = yes
+
+# we want double dance
+TAP_DANCE_ENABLE = yes
 
 # AUTOLOG_ENABLE = no
 # ifeq (${AUTOLOG_ENABLE},yes)
@@ -26,7 +27,7 @@ CONSOLE_ENABLE = yes
 # EXTRAKEY_ENABLE  = yes # Audio control and System control(+450)
 # CONSOLE_ENABLE   = no  # Console for debug(+400)
 # COMMAND_ENABLE   = no  # Commands for debug and configuration
-# NKRO_ENABLE      = yes # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ # nkro-doesnt-work
+NKRO_ENABLE      = no # Nkey Rollover - if this doesn't work, see here: https://github.com/tmk/tmk_keyboard/wiki/FAQ # nkro-doesnt-work
 BACKLIGHT_ENABLE = no  # Enable keyboard backlight functionality
 MIDI_ENABLE      = no  # MIDI controls
 AUDIO_ENABLE     = no  # Audio output on port C6

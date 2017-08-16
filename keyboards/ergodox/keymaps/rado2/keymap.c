@@ -16,10 +16,11 @@ enum layers {
     BASE=0, // default layer
     BASE_MALTRON=0,
     BASE_DVORAK=0,
-    BASE_RSTHD=0,
-    BASE_RADO=1,
-    BASE_BOTTOM_ROW,
+//    BASE_RSTHD=0,
+    BASE_RADO2=0,
+//    BASE_BOTTOM_ROW,
     BASE_RADO2_BOTH,
+    BASE_RADO2_DUPLICATE,
     BASE_RADO2_LEFT,
     BASE_RADO2_RIGHT,
 
@@ -34,22 +35,26 @@ enum layers {
 
 enum functions_numbers {
   FDEBUG=0, //  //DEBUG,
+  TEST2,
   FNONE,
   TEST,
+
 };
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 //#include "base.c"
 // #include "base_maltron.c"
 //#include "base_dvorak.c"
-// #include "base_rsthd.c"
+// #include "base_rsthd.c"s
 //#include "base_bottom_row.c"
 
 #include "base_rado2.c"
+#include "base_rado2_both.c"
+#include "base_rado2_duplicate.c"
 #include "base_rado2_left.c"
 #include "base_rado2_right.c"
-#include "base_rado2_both.c"
 #include "others.c"
 
 // #include "arrows.c"
@@ -57,14 +62,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // #include "mouse.c"
 // #include "switch_layers.c"
 // #include "mychars.c"
-// #include "special_functions.c"
+// #include "special_functions.ffc"
 
 };
 
 const uint16_t PROGMEM fn_actions[] = {
   [FDEBUG] = ACTION_FUNCTION(FDEBUG),  
-  [1] = ACTION_FUNCTION(1),
-  [2] = ACTION_FUNCTION(2),
+  [TEST2] = ACTION_FUNCTION(TEST2),                   // ok
+  //[TEST2] = ACTION_LAYER_ONESHOT(1),
+//  [TEST2] = ACTION_LAYER_MOMENTARY(1),
+//  [TEST2] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_G),    //ok
+//  [TEST2] = ACTION_LAYER_TAP_TOGGLE(MOD_RGUI, KC_G),    
 };
 
 static uint8_t layer_mychars = 0;
@@ -78,17 +86,23 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
   switch (id) { 
 
-    case FNONE:
+    case TEST2:
+      print("\nTEST2\n");
+       // if (record->event.pressed) {
+       //    print("\nTEST2 2\n");
+       //    ACTION_LAYER_ONESHOT(1);
+       //  } else {
+       //    print("\nTEST2 3\n");
+       //  }
       if (record->event.pressed) {
-        uprintf("%d a pressed\n", id);
-        layer_mychars=1;
-        layer_mychars_release=0;
-        layer_on (MYCHARS);
+        print("\nTEST2 2\n");
+        layer_on(1);
+        set_oneshot_layer(1, ONESHOT_START);
       } else {
-        uprintf("%d a release\n", id);
-        layer_mychars_release=1;
+        print("\nTEST2 3\n");
+        clear_oneshot_layer_state(ONESHOT_PRESSED);
       }
-      break;
+      break; 
 
     case FDEBUG:
        if (record->event.pressed) {
@@ -100,6 +114,18 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         }
       }
       break; 
+
+    case FNONE:
+      if (record->event.pressed) {
+        uprintf("%d a pressed\n", id);
+        layer_mychars=1;
+        layer_mychars_release=0;
+        layer_on (MYCHARS);
+      } else {
+        uprintf("%d a release\n", id);
+        layer_mychars_release=1;
+      }
+      break;
 
   }
 }
