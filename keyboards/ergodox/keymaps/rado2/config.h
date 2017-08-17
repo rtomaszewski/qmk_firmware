@@ -34,10 +34,13 @@
 // it allows the OSL to not be enabled forever. You always want your keyboard to return to the base layout. 
 // thinking and trying to remember  on what layear you are currently on is impossible.
 // example: type text in editor, then switch windows to browser and read for some time and repeat
+// - this is not combined time for 2 OSLs
+// - i.e you press OSL 1st time and it takes you to new layer L1. On L1 there is another OSL
+//   and you press it. The timer is reset to 0.
 //#undef ONESHOT_TIMEOUT
-#define ONESHOT_TIMEOUT 2500
+#define ONESHOT_TIMEOUT 500
 // how many taps before oneshot toggle is triggered
-#define ONESHOT_TAP_TOGGLE 3
+#define ONESHOT_TAP_TOGGLE 5
 
 
 

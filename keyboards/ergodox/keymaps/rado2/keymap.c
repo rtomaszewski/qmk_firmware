@@ -20,7 +20,8 @@ enum layers {
     BASE_RADO2=0,
 //    BASE_BOTTOM_ROW,
     BASE_RADO2_BOTH,
-    BASE_RADO2_DUPLICATE,
+    BASE_RADO2_DUPLICATE_L,
+    BASE_RADO2_DUPLICATE_R,
     BASE_RADO2_LEFT,
     BASE_RADO2_RIGHT,
 
@@ -66,7 +67,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #include "base_rado2.c"
 #include "base_rado2_both.c"
-#include "base_rado2_duplicate.c"
+#include "base_rado2_duplicate_left.c"
+#include "base_rado2_duplicate_right.c"
 #include "base_rado2_left.c"
 #include "base_rado2_right.c"
 #include "others.c"
