@@ -15,7 +15,6 @@
 
 [BASE_RADO2_DUPLICATE] = KEYMAP(
 
-
 /* left hand */
 
  //F(TEST2)

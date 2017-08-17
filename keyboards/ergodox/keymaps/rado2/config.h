@@ -35,7 +35,7 @@
 // thinking and trying to remember  on what layear you are currently on is impossible.
 // example: type text in editor, then switch windows to browser and read for some time and repeat
 //#undef ONESHOT_TIMEOUT
-#define ONESHOT_TIMEOUT 500
+#define ONESHOT_TIMEOUT 2500
 // how many taps before oneshot toggle is triggered
 #define ONESHOT_TAP_TOGGLE 3
 
