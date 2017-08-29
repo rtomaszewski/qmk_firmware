@@ -26,6 +26,9 @@ enum layers {
     BASE_RADO2_RIGHT,
 
     OTHERS,
+    L_F1,
+    L_NUMBERS,
+    L_ARROWS,
     ARROW, 
     SHIFT_KEYS, 
     MOUSE_MOVEMENT, 
@@ -45,14 +48,16 @@ enum functions_numbers {
 //Tap Dance Declarations
 enum {
   TD_ESC_CAPS = 0,
+  TD_ENTER_SPACE,
   CT_SWITCH_1
 };
 
 
 qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Esc, twice for Caps Lock
-  [TD_ESC_CAPS]  = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
-  [CT_SWITCH_1] = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1)
+  [TD_ESC_CAPS]      = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
+  [TD_ENTER_SPACE]   = ACTION_TAP_DANCE_DOUBLE(KC_SPACE, KC_ENTER),
+  [CT_SWITCH_1]      = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1)
 };
 
 
@@ -72,6 +77,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #include "base_rado2_left.c"
 #include "base_rado2_right.c"
 #include "others.c"
+#include "layer_f1.c"
+#include "layer_numbers.c"
+#include "layer_arrows.c"
 
 // #include "arrows.c"
 // #include "shift.c"

@@ -1,0 +1,8 @@
+git add keyboards/ergodox/keymaps/rado2/base_rado2_duplicate_left.c
+git add keyboards/ergodox/keymaps/rado2/base_rado2_duplicate_right.c
+  
+git commit -va --allow-empty-message -m ''
+git tag rado2-20170817-v1
+git push -v ; git push -v --tags
+git status
+
