@@ -42,6 +42,11 @@ enum functions_numbers {
   TEST2,
   FNONE,
   TEST,
+  M_COMMA,
+  M_KC_LPRN, 
+  M_EXAMPLE,
+
+  F_EXAMPLE, 
 
 };
 
@@ -91,8 +96,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-  [FDEBUG] = ACTION_FUNCTION(FDEBUG),  
-  [TEST2] = ACTION_FUNCTION(TEST2),                   // ok
+  [FDEBUG]    = ACTION_FUNCTION(FDEBUG),  
+  [TEST2]     = ACTION_FUNCTION(TEST2),                   // ok
+
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
 //  [TEST2] = ACTION_LAYER_MOMENTARY(1),
 //  [TEST2] = ACTION_MODS_TAP_KEY(MOD_RGUI, KC_G),    //ok
@@ -109,6 +115,14 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
   uprintf("%d action\n", id);
 
   switch (id) { 
+  
+  case F_EXAMPLE:
+      if (record->event.pressed) {
+        print("\nTEST2 2\n");
+      } else {
+        print("\nTEST2 3\n");
+      }
+      break; 
 
     case TEST2:
       print("\nTEST2\n");
@@ -229,12 +243,33 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
       switch(id) {
-        case 0:
-        if (record->event.pressed) {
-          SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        }
-        break;
 
+        case M_EXAMPLE:
+          if (record->event.pressed) {
+            return MACRO( T(KP_0), D(KP_0), END );
+          } else {
+            return MACRO( U(KP_0), END );
+          }
+
+        case M_COMMA:
+          if (record->event.pressed) {
+            SEND_STRING(", ");
+          }
+          break;
+
+        // case 0:
+        // if (record->event.pressed) {
+        //   SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
+        // }
+        // break;
+
+
+        case M_KC_LPRN:
+          if (record->event.pressed) {
+             return MACRO( D(LSFT), T(9), T(0), U(LSFT), T(LEFT), END );
+            //return MACRO( T(LBRACKET), T(RBRACKET), T(LEFT), END ); LSFT(KC_9)
+          }
+      
         case TEST:
         // Sends Alt+Shift on both key down and key up. 
         // Fesigned to switch between two keyboard layouts on Windows using a locking switch.

@@ -63,7 +63,7 @@ LT(BASE_RADO2_RIGHT ,KC_TAB),      KC_R,        KC_S,               LSFT_T(KC_T)
  //       -------------------+-------------------|
                 xxxxxxx,             /* - */
  //       |-------------------+------------------+-------------------|
-                xxxxxxx,           KC_BSPACE,       TD(TD_ENTER_SPACE)     //<<< testing TD
+               xxxxxxx,           KC_BSPACE,       TD(TD_ENTER_SPACE)     //<<< testing TD
  //       `-------------------+------------------+-------------------'
 ),
 
