@@ -58,7 +58,9 @@ enum functions_numbers {
 enum {
   TD_ESC_CAPS = 0,
   TD_ENTER_SPACE,
-  CT_SWITCH_1
+  CT_SWITCH_1, 
+  TD_KEY_PASTE, 
+  TD_KEY_COPY, 
 };
 
 
@@ -66,10 +68,11 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   //Tap once for Esc, twice for Caps Lock
   [TD_ESC_CAPS]      = ACTION_TAP_DANCE_DOUBLE(KC_ESC, KC_CAPS),
   [TD_ENTER_SPACE]   = ACTION_TAP_DANCE_DOUBLE(KC_SPACE, KC_ENTER),
-  [CT_SWITCH_1]      = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1)
+  [CT_SWITCH_1]      = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1),         // "k" of tg(1) layer
+  [TD_KEY_COPY]      = ACTION_TAP_DANCE_DOUBLE(KC_G,LCTL(KC_C)),          // 
+  [TD_KEY_PASTE]     = ACTION_TAP_DANCE_DOUBLE(KC_P,LCTL(KC_V)),          // 
+  
 };
-
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
