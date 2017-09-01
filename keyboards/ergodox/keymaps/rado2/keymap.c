@@ -42,9 +42,13 @@ enum functions_numbers {
   TEST2,
   FNONE,
   TEST,
+  M_EXAMPLE, 
   M_COMMA,
-  M_KC_LPRN, 
-  M_EXAMPLE,
+  M_KC_LPRN,
+  M_KC_LCBR, 
+  M_KC_LBRACKET, 
+  M_KC_DQUO,
+  M_KC_QUOTE,          
 
   F_EXAMPLE, 
 
@@ -268,8 +272,33 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
           if (record->event.pressed) {
              return MACRO( D(LSFT), T(9), T(0), U(LSFT), T(LEFT), END );
             //return MACRO( T(LBRACKET), T(RBRACKET), T(LEFT), END ); LSFT(KC_9)
-          }
+          }         
+          break; 
       
+        case M_KC_LCBR:
+          if (record->event.pressed) {
+             return MACRO( D(LSFT), T(LBRC), T(RBRC), U(LSFT), T(LEFT), END );
+          }
+          break; 
+
+        case M_KC_LBRACKET:
+          if (record->event.pressed) {
+             return MACRO( T(LBRC), T(RBRC), T(LEFT), END );
+          }
+          break; 
+
+        case M_KC_DQUO:
+          if (record->event.pressed) {
+             return MACRO( D(LSFT), T(QUOT), T(QUOT), U(LSFT), T(LEFT), END );
+          }        
+          break; 
+
+        case M_KC_QUOTE:
+          if (record->event.pressed) {
+             return MACRO( T(QUOT), T(QUOT), T(LEFT), END );
+          }  
+          break; 
+          
         case TEST:
         // Sends Alt+Shift on both key down and key up. 
         // Fesigned to switch between two keyboard layouts on Windows using a locking switch.

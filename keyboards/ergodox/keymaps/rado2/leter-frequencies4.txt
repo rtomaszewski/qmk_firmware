@@ -46,6 +46,13 @@ prio
 + 
 %
 
+together
+._  ('	(" 
+
+. % : ' " ( { , [ 
+
+solo
+
 
 '%s:%s:%s' 
  '%08x' % self._thread_local.nonce_count
@@ -55,7 +62,9 @@ prio
  >>> s.mount('http://', a) 
  "invalid path: {0}".format(cert_loc))
    # For Python 2.7+ versions, use buffering of HTTP
+   
      low_conn.send(hex(len(i))[2:].encode('utf-8'))
+
                         low_conn.send(b'\r\n')
                         low_conn.send(i)
                         low_conn.send(b'\r\n')
