@@ -29,4 +29,4 @@ set -vx
 mv /root/qmk_firmware/*.hex /media/sf_ergodox/$hex
 set +vx
 
-ls -la /media/sf_ergodox/*.hex
+ls -latr /media/sf_ergodox/*.hex
