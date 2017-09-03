@@ -18,6 +18,11 @@ enum layers {
     BASE_DVORAK=0,
 //    BASE_RSTHD=0,
     BASE_RADO2=0,
+    L_ARROWS,    
+    L_ARROWS2, 
+    L_ARROWS3_A,
+    L_ARROWS3_B,
+    L_ARROWS_BASH, 
 //    BASE_BOTTOM_ROW,
     BASE_RADO2_BOTH,
     BASE_RADO2_DUPLICATE_L,
@@ -28,7 +33,7 @@ enum layers {
     OTHERS,
     L_F1,
     L_NUMBERS,
-    L_ARROWS,
+
     ARROW, 
     SHIFT_KEYS, 
     MOUSE_MOVEMENT, 
@@ -83,6 +88,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //#include "base_bottom_row.c"
 
 #include "base_rado2.c"
+#include "layer_arrows.c"
+#include "layer_arrows2.c"
+#include "layer_arrows_bash.c"
+#include "layer_arrows3a.c"
+#include "layer_arrows3b.c"
 #include "base_rado2_both.c"
 #include "base_rado2_duplicate_left.c"
 #include "base_rado2_duplicate_right.c"
@@ -91,7 +101,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #include "others.c"
 #include "layer_f1.c"
 #include "layer_numbers.c"
-#include "layer_arrows.c"
 
 // #include "arrows.c"
 // #include "shift.c"

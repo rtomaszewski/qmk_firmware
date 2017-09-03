@@ -55,7 +55,7 @@ solo
 
 
 '%s:%s:%s' 
- '%08x' % self._thread_local.nonce_count
+ '%08x' % self._thread_local.nonce_countggg
    base += ', qop="auth", nc=%s, cnonce="%s"' % (ncvalue, cnonce)
                noncebit = "%s:%s:%s:%s:%s" % (
 "3.0.0. Please convert the object you've passed in ({0!r}) to "
