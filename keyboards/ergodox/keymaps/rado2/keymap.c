@@ -19,6 +19,7 @@ enum layers {
 //    BASE_RSTHD=0,
     BASE_RADO2=0,
 //    BASE_BOTTOM_ROW,
+    L_SHIFT, 
     BASE_RADO2_BOTH,
     BASE_RADO2_DUPLICATE_L,
     BASE_RADO2_DUPLICATE_R,
@@ -55,7 +56,7 @@ enum functions_numbers {
   M_KC_LCBR, 
   M_KC_LBRACKET, 
   M_KC_DQUO,
-  M_KC_QUOTE,          
+  M_KC_QUOTE,         
 
   F_EXAMPLE, 
 
@@ -77,7 +78,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_ENTER_SPACE]   = ACTION_TAP_DANCE_DOUBLE(KC_SPACE, KC_ENTER),
   [CT_SWITCH_1]      = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1),         // "k" of tg(1) layer
   [TD_KEY_COPY]      = ACTION_TAP_DANCE_DOUBLE(KC_G,LCTL(KC_C)),          // 
-  [TD_KEY_PASTE]     = ACTION_TAP_DANCE_DOUBLE(KC_P,LCTL(KC_V)),          // 
+  [TD_KEY_PASTE]     = ACTION_TAP_DANCE_DOUBLE(KC_D,LCTL(KC_V)),          // 
   
 };
 
@@ -90,6 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //#include "base_bottom_row.c"
 
 #include "base_rado2.c"
+#include "layer_shift.c" 
 #include "base_rado2_both.c"
 #include "base_rado2_duplicate_left.c"
 #include "base_rado2_duplicate_right.c"
