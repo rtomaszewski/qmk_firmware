@@ -78,7 +78,7 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_ENTER_SPACE]   = ACTION_TAP_DANCE_DOUBLE(KC_SPACE, KC_ENTER),
   [CT_SWITCH_1]      = ACTION_TAP_DANCE_DUAL_ROLE(KC_K,1),         // "k" of tg(1) layer
   [TD_KEY_COPY]      = ACTION_TAP_DANCE_DOUBLE(KC_G,LCTL(KC_C)),          // 
-  [TD_KEY_PASTE]     = ACTION_TAP_DANCE_DOUBLE(KC_D,LCTL(KC_V)),          // 
+  [TD_KEY_PASTE]     = ACTION_TAP_DANCE_DOUBLE(KC_C,LCTL(KC_V)),          // 
   
 };
 
