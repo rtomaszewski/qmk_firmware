@@ -59,6 +59,9 @@ enum functions_numbers {
   M_KC_QUOTE,         
 
   F_EXAMPLE, 
+  F_SHIFT, 
+  F_SHIFT_RIGHT, 
+
 
 };
 
@@ -105,8 +108,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // #include "layer_arrows_bash2.c"
 // #include "layer_arrows3a.c"
 // #include "layer_arrows3b.c"
-#include "layer_f1.c"
-#include "layer_numbers.c"
+
+// #include "layer_f1.c"
+// #include "layer_numbers.c"
 
 // #include "arrows.c"
 // #include "shift.c"
@@ -118,8 +122,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 const uint16_t PROGMEM fn_actions[] = {
-  [FDEBUG]    = ACTION_FUNCTION(FDEBUG),  
-  [TEST2]     = ACTION_FUNCTION(TEST2),                   // ok
+  [FDEBUG]           = ACTION_FUNCTION(FDEBUG),  
+  [F_SHIFT]          = ACTION_FUNCTION(F_SHIFT),    
+  [F_SHIFT_RIGHT]    = ACTION_FUNCTION(F_SHIFT_RIGHT),     
+  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
 //  [TEST2] = ACTION_LAYER_MOMENTARY(1),
@@ -129,6 +135,7 @@ const uint16_t PROGMEM fn_actions[] = {
 
 static uint8_t layer_mychars = 0;
 static uint8_t layer_mychars_release = 0;
+static uint8_t f_shift_on = 0;
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 // static uint8_t mods_pressed;
@@ -139,10 +146,48 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
   switch (id) { 
   
   case F_EXAMPLE:
+      print("\nTEST2 1\n");
       if (record->event.pressed) {
         print("\nTEST2 2\n");
       } else {
         print("\nTEST2 3\n");
+      }
+      break; 
+
+    case F_SHIFT:
+      print("\nshiht 1\n");
+      if (record->event.pressed) {
+        print("\nshiht 2\n");
+
+        f_shift_on=1;
+        layer_on(L_SHIFT);
+        set_oneshot_layer(L_SHIFT, ONESHOT_START);
+
+      } else {
+        print("\nshiht 3\n");
+        clear_oneshot_layer_state(ONESHOT_PRESSED);        
+      }
+      break; 
+
+    case F_SHIFT_RIGHT:
+      print("\nshiht r 1\n");
+      if (f_shift_on) {
+        f_shift_on = 0;
+        layer_clear();
+        layer_on(BASE_RADO2);
+        reset_oneshot_layer();
+        clear_oneshot_locked_mods();
+      }
+
+      if (record->event.pressed) {
+        print("\nshiht r 2\n");
+
+        layer_on(BASE_RADO2_RIGHT);
+        set_oneshot_layer(BASE_RADO2_RIGHT, ONESHOT_START);
+
+      } else {
+        print("\nshiht r 3\n");
+        clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
       break; 
 
@@ -197,7 +242,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   uint16_t aux_keycode=keycode & 0x00ff;
-  // uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
+  uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
 
   // uprintf("(");
   // default_layer_debug();

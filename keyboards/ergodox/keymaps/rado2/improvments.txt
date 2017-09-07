@@ -1,4 +1,75 @@
+1
+
 potential issius with the rsthd iayout or whah to improve
  - 'y' latter
  	- yl ly kly 
  - 
+
+
+2
+
+- tap or double tap or  control wenn hold with double tap functionality
+
+
+Daniel Gordon @DanielGGordon 17:12
+aha. ok maybe Ill check it out tonight.
+I assume you cant have dual function and tap dance for the same key?
+Or can u? Like holding z is ctrl. Tapping it once will send z, and tapping it twice will send ctrl +z
+
+Gergely Nagy @algernon 17:17
+@DanielGGordon: you can do that, it just takes a bit of work
+@DanielGGordon: use ACTION_TAP_DANCE_FN_ADVANCED, with both a reset and a finished callback. in the finished callback, use something like if (state->count == 1) { if (state->pressed) { /* held */ } else { /* tapped */ } } else { /* send ctrl+z */ }
+and in the reset callback, release what you pressed in _finished. you will need a variable or something similar to "remember" what you did in the finished callback
+
+
+https://github.com/algernon/ergodox-layout/blob/4da887ce9c7fd06ef4c946f124a0032ba9d104de/keymap.c#L750-L783
+
+typedef struct {
+  bool layer_toggle;
+  bool sticky;
+} td_ta_state_t;
+
+static void ang_tap_dance_ta_finished (qk_tap_dance_state_t *state, void *user_data) {
+  td_ta_state_t *td_ta = (td_ta_state_t *) user_data;
+
+  if (td_ta->sticky) {
+    td_ta->sticky = false;
+    td_ta->layer_toggle = false;
+    layer_off (ARRW);
+    return;
+  }
+
+  if (state->count == 1 && !state->pressed) {
+    register_code (KC_TAB);
+    td_ta->sticky = false;
+    td_ta->layer_toggle = false;
+  } else {
+    td_ta->layer_toggle = true;
+    layer_on (ARRW);
+    td_ta->sticky = (state->count == 2);
+  }
+}
+
+static void ang_tap_dance_ta_reset (qk_tap_dance_state_t *state, void *user_data) {
+  td_ta_state_t *td_ta = (td_ta_state_t *) user_data;
+
+  if (!td_ta->layer_toggle)
+    unregister_code (KC_TAB);
+  if (!td_ta->sticky)
+    layer_off (ARRW);
+}
+
+
+3
+
+- you have a regularly defined key on your keybord
+- now typing ^^^^ sent it (obviously). Normaly when you tap key+ctrl it should sent this sequence
+- but what if we want to send something diff
+
+
+Daniel Gordon @DanielGGordon Aug 31 17:08
+Is there a way I can swap ctrl + a with ctrl +z? I am thinking of moving swapping ctrl a,s,d,f with z,x,c,v.
+
+Jack Humbert @jackhumbert Aug 31 17:16
+you should be able to do something like that with process_record_user
+listening for KC_A while checking get_mods() & MOD_BIT(KC_LCTRL)
