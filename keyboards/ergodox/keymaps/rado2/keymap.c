@@ -145,7 +145,12 @@ const uint16_t PROGMEM fn_actions[] = {
 static uint8_t layer_mychars = 0;
 static uint8_t layer_mychars_release = 0;
 
-static uint8_t f_shift_on = 0;
+static uint8_t  key_counter = 0;
+
+static uint8_t  f_shift_on = 0;
+static uint16_t f_shift_timer = 0;
+static uint8_t  f_key_counter = 0;
+
 static uint8_t mylayer = 0;
 //static uint8_t f_shift_left_righ_layer = 0;
 
@@ -158,7 +163,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 // static uint8_t mods_pressed;
 //  static bool mod_flag;
   
-  uprintf("\naction %d opt %d\n", id, opt);
+  //uprintf("\naction %d opt %d\n", id, opt);
 
   switch (id) { 
   
@@ -173,11 +178,14 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break; 
 */
     case F_SHIFT:
-      print("\nshiht 1\n");
+      print("shiht 1\n");
       if (record->event.pressed) {
         print("\nshiht 2\n");
 
         f_shift_on=1;
+        f_shift_timer=timer_read();
+        f_key_counter=key_counter;
+
         layer_on(L_SHIFT);
         set_oneshot_layer(L_SHIFT, ONESHOT_START);
 
@@ -188,19 +196,21 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break; 
 
     case F_LEFT:
-      print("\nllleft 1\n");
+      print("llleft 1\n");
       mylayer=BASE_RADO2_LEFT;
     case F_RIGHT:
       if ( ! mylayer) {
         mylayer=BASE_RADO2_RIGHT; 
       }
-      print("\nrrreight 1\n");
+      print("rrreight 1\n");
 
       if (record->event.pressed) {
-        print("\nrrreight 2\n");
+        print("rrreight 2\n");
 
-        if (f_shift_on) {
-          print("\nrrreight shift_on\n");
+        if ( f_shift_on && \
+            (1 == (key_counter - f_key_counter)) )
+        {
+          print("rrreight shift_on\n");
           f_shift_on = 0;
           layer_clear();
           layer_on(BASE_RADO2);
@@ -208,6 +218,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
           clear_oneshot_locked_mods();
 
           set_oneshot_mods (MOD_LSFT);
+        } else {
+          f_shift_on = 0;
         }
 
         layer_on(mylayer);
@@ -215,7 +227,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         mylayer=0;
 
       } else {
-        print("\nrrreight 3\n");
+        print("rrreight 3\n");
         mylayer=0;
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
@@ -254,7 +266,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   uint16_t aux_keycode=keycode & 0x00ff;
-  uprintf("record %d %d %d\n", layer_mychars, keycode, aux_keycode);
+ // uprintf("** record %d %d %d\n", layer_mychars, keycode, aux_keycode);
 
   // uprintf("(");
   // default_layer_debug();
@@ -264,6 +276,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // debug_record(*record);
   // uprintf(")\n");
 
+// counts key presses 
+  if ( record->event.pressed) {
+    key_counter += 1;
+    uprintf("** key nr %d f_key nr %d\n", key_counter, f_key_counter);
+  }
 
   if (layer_mychars==1 ) {
     switch (aux_keycode) {
@@ -389,6 +406,9 @@ void matrix_init_user() {
 
   f_shift_on = 0;
   mylayer = 0;
+  f_shift_timer = 0;
+  key_counter = 0;
+  f_key_counter = 0;
  // f_shift_left_righ_layer = 0;
 
  // ergodox_led_all_on();
@@ -412,6 +432,13 @@ void matrix_init_user() {
 // LEADER_EXTERNS();
     
 void matrix_scan_user(void) {
+
+  if (f_shift_timer && timer_elapsed (f_shift_timer) > (2*TAPPING_TERM)) {
+    f_shift_timer=0;
+    f_shift_on=0;
+    uprintf("** key zero\n");
+  }
+
     // LEADER_DICTIONARY() {
     //   leading = false;
     //   leader_end();
