@@ -67,16 +67,8 @@ enum functions_numbers {
 
   F_EXAMPLE, 
   F_SHIFT, 
-  F_SHIFT_RIGHT,
-
-  F_KC_Z, 
-  F_KC_V ,          
-  F_KC_X,  
-
-  F_KC_Q, 
-  F_KC_J, 
-  F_KC_K, 
-
+  F_RIGHT,
+  F_LEFT, 
 
 };
 
@@ -138,16 +130,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM fn_actions[] = {
   [FDEBUG]           = ACTION_FUNCTION(FDEBUG),  
-  [F_SHIFT]          = ACTION_FUNCTION(F_SHIFT),    
-  [F_SHIFT_RIGHT]    = ACTION_FUNCTION(F_SHIFT_RIGHT),     
-
-  [F_KC_V]           = ACTION_FUNCTION(F_KC_V),  
-  [F_KC_X]           = ACTION_FUNCTION(F_KC_X),  
-  [F_KC_Z]           = ACTION_FUNCTION(F_KC_Z),  
-
-  [F_KC_K]           = ACTION_FUNCTION(F_KC_K),  
-  [F_KC_J]           = ACTION_FUNCTION(F_KC_J),  
-  [F_KC_Q]           = ACTION_FUNCTION(F_KC_Q),        
+  [F_SHIFT]          = ACTION_FUNCTION(F_SHIFT),  
+  [F_RIGHT]          = ACTION_FUNCTION(F_RIGHT),  
+  [F_LEFT]           = ACTION_FUNCTION(F_LEFT),  
 
   [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
@@ -161,7 +146,8 @@ static uint8_t layer_mychars = 0;
 static uint8_t layer_mychars_release = 0;
 
 static uint8_t f_shift_on = 0;
-static uint8_t f_shift_left_righ_layer = 0;
+static uint8_t mylayer = 0;
+//static uint8_t f_shift_left_righ_layer = 0;
 
 void tap(uint16_t key) {
   register_code(key); 
@@ -176,6 +162,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
   switch (id) { 
   
+/*  
   case F_EXAMPLE:
       print("\nTEST2 1\n");
       if (record->event.pressed) {
@@ -184,7 +171,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         print("\nTEST2 3\n");
       }
       break; 
-
+*/
     case F_SHIFT:
       print("\nshiht 1\n");
       if (record->event.pressed) {
@@ -200,111 +187,37 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       }
       break; 
 
-    case F_SHIFT_RIGHT:
-      print("\nshiht r 1\n");
-      if (f_shift_on) {
-        f_shift_on = 0;
-        f_shift_left_righ_layer=1;
-        layer_clear();
-        layer_on(BASE_RADO2);
-        reset_oneshot_layer();
-        clear_oneshot_locked_mods();
+    case F_LEFT:
+      print("\nllleft 1\n");
+      mylayer=BASE_RADO2_LEFT;
+    case F_RIGHT:
+      if ( ! mylayer) {
+        mylayer=BASE_RADO2_RIGHT; 
       }
+      print("\nrrreight 1\n");
 
       if (record->event.pressed) {
-        print("\nshiht r 2\n");
+        print("\nrrreight 2\n");
 
-        layer_on(BASE_RADO2_RIGHT);
-        set_oneshot_layer(BASE_RADO2_RIGHT, ONESHOT_START);
+        if (f_shift_on) {
+          print("\nrrreight shift_on\n");
+          f_shift_on = 0;
+          layer_clear();
+          layer_on(BASE_RADO2);
+          reset_oneshot_layer();
+          clear_oneshot_locked_mods();
+
+          set_oneshot_mods (MOD_LSFT);
+        }
+
+        layer_on(mylayer);
+        set_oneshot_layer(mylayer, ONESHOT_START);
+        mylayer=0;
 
       } else {
-        print("\nshiht r 3\n");
+        print("\nrrreight 3\n");
+        mylayer=0;
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
-      }
-      break; 
-
-/*
-      F(F_KC_Q) ,       KC_QUOTE,              KC_HASH ,          _______ ,        xxxxxxx,     
-// |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,         KC_HOME  ,          _______,          F(F_KC_J) ,          F(F_KC_K) ,            
-*/
-      case F_KC_V:
-      if (record->event.pressed) {
-        if (f_shift_left_righ_layer) {
-          f_shift_left_righ_layer=0;
-          register_code(KC_LSFT); 
-tap(KC_V);
-          unregister_code(KC_LSFT); 
-        } else {
-          tap(KC_V);
-          // register_code(KC_V); 
-          // unregister_code(KC_V); 
-        }
-      } 
-      //else {
-      //}
-      break;         
-
-      case F_KC_X:
-      if (record->event.pressed) {
-        if (f_shift_left_righ_layer) {
-          f_shift_left_righ_layer=0;
-          register_code(KC_LSFT); 
-tap(KC_X);
-          unregister_code(KC_LSFT); 
-        } else {
-tap(KC_X);
-        }
-      } 
-      //else {
-      //}
-      break; 
-
-      case F_KC_Z:
-      if (record->event.pressed) {
-        if (f_shift_left_righ_layer) {
-          f_shift_left_righ_layer=0;
-          register_code(KC_LSFT); 
-tap(KC_Z);
-          unregister_code(KC_LSFT); 
-        } else {
-tap(KC_Z);
-        }
-      } 
-      //else {
-      //}
-      break;  
-
-    case F_KC_Q:
-      if (record->event.pressed) {
-        if (f_shift_left_righ_layer) {
-          f_shift_left_righ_layer=0;
-          register_code(KC_LSFT); 
-tap(KC_Q);
-          unregister_code(KC_LSFT); 
-        } else {
-tap(KC_Q);
-        }
-      } 
-      //else {
-      //}
-      break;         
-
-    case TEST2:
-      print("\nTEST2\n");
-       // if (record->event.pressed) {
-       //    print("\nTEST2 2\n");
-       //    ACTION_LAYER_ONESHOT(1);
-       //  } else {
-       //    print("\nTEST2 3\n");
-       //  }
-      if (record->event.pressed) {
-        print("\nTEST2 2\n");
-        layer_on(1);
-        set_oneshot_layer(1, ONESHOT_START);
-      } else {
-        print("\nTEST2 3\n");
-        clear_oneshot_layer_state(ONESHOT_PRESSED);
       }
       break; 
 
@@ -410,25 +323,19 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
       switch(id) {
 
+/*
         case M_EXAMPLE:
           if (record->event.pressed) {
             return MACRO( T(KP_0), D(KP_0), END );
           } else {
             return MACRO( U(KP_0), END );
           }
-
+*/
         case M_COMMA:
           if (record->event.pressed) {
             SEND_STRING(", ");
           }
           break;
-
-        // case 0:
-        // if (record->event.pressed) {
-        //   SEND_STRING (QMK_KEYBOARD "/" QMK_KEYMAP " @ " QMK_VERSION);
-        // }
-        // break;
-
 
         case M_KC_LPRN:
           if (record->event.pressed) {
@@ -481,7 +388,8 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 void matrix_init_user() {
 
   f_shift_on = 0;
-  f_shift_left_righ_layer = 0;
+  mylayer = 0;
+ // f_shift_left_righ_layer = 0;
 
  // ergodox_led_all_on();
  // for (int i = LED_BRIGHTNESS_HI; i > LED_BRIGHTNESS_LO; i--) {
