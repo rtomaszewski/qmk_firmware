@@ -34,11 +34,11 @@ enum layers {
     BASE_RADO2_RIGHT,
     L_ARROWS,   
     L_ARROWS_DUPLICATE,  
-    L_ARROWS2, 
     // L_ARROWS3_A,
     // L_ARROWS3_B,
     L_ARROWS_BASH, 
     L_ARROWS_BASH2,
+    L_ARROWS2, 
 
     // OTHERS,
     L_F1,
@@ -64,6 +64,7 @@ enum functions_numbers {
   M_KC_LBRACKET, 
   M_KC_DQUO,
   M_KC_QUOTE,         
+  M_KC_SPACE, 
 
   F_EXAMPLE, 
   F_SHIFT, 
@@ -110,8 +111,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //#include "others.c"
 #include "layer_arrows.c"
 #include "layer_arrows_duplicate.c"
-#include "layer_arrows2.c"
 #include "layer_arrows_bash.c"
+#include "layer_arrows2.c"
 // #include "layer_arrows_bash2.c"
 // #include "layer_arrows3a.c"
 // #include "layer_arrows3b.c"
@@ -384,7 +385,15 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
              return MACRO( T(QUOT), T(QUOT), T(LEFT), END );
           }  
           break; 
-          
+      
+        case M_KC_SPACE:
+          if (record->event.pressed) {
+             return MACRO( T(SPACE), T(SPACE), T(LEFT), END );
+          }  
+          break; 
+      
+
+
         case TEST:
         // Sends Alt+Shift on both key down and key up. 
         // Fesigned to switch between two keyboard layouts on Windows using a locking switch.

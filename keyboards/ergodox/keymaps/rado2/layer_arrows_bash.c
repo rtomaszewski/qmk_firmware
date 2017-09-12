@@ -33,8 +33,8 @@
  //                                                                                                   -------------------+-------------------|
                                                                                                              /* - */          xxxxxxx,       
  //                                                                               |-------------------+------------------+-------------------|
-                                                                               // LT(L_ARROWS_BASH2,KC_SPACE),  xxxxxxx,         xxxxxxx,       
-                                                                                          KC_SPACE,           xxxxxxx,         xxxxxxx,       
+                                                                                  LT(L_ARROWS2,KC_SPACE),   xxxxxxx,         xxxxxxx,       
+                                                                              //        KC_SPACE,           xxxxxxx,         xxxxxxx,       
  //                                                                               `-------------------+------------------+-------------------'
 
 
