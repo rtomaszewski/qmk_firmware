@@ -67,9 +67,12 @@ enum functions_numbers {
   M_KC_SPACE, 
 
   F_EXAMPLE, 
+
   F_SHIFT, 
   F_RIGHT,
   F_LEFT, 
+
+  F_CONTROL, 
 
 };
 
@@ -104,8 +107,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 #include "base_rado2.c"
 #include "layer_shift.c" 
 #include "base_rado2_both.c"
-#include "base_rado2_duplicate_left.c"
-#include "base_rado2_duplicate_right.c"
+//#include "base_rado2_duplicate_left.c"
+//#include "base_rado2_duplicate_right.c"
 #include "base_rado2_left.c"
 #include "base_rado2_right.c"
 //#include "others.c"
@@ -135,6 +138,8 @@ const uint16_t PROGMEM fn_actions[] = {
   [F_RIGHT]          = ACTION_FUNCTION(F_RIGHT),  
   [F_LEFT]           = ACTION_FUNCTION(F_LEFT),  
 
+  [F_CONTROL]        = ACTION_FUNCTION(F_CONTROL),
+
   [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
@@ -143,14 +148,22 @@ const uint16_t PROGMEM fn_actions[] = {
 //  [TEST2] = ACTION_LAYER_TAP_TOGGLE(MOD_RGUI, KC_G),    
 };
 
-static uint8_t layer_mychars = 0;
-static uint8_t layer_mychars_release = 0;
+//static uint8_t layer_mychars = 0;
+//static uint8_t layer_mychars_release = 0;
 
 static uint8_t  key_counter = 0;
 
+static uint8_t  f_shift_key_counter = 0;
 static uint8_t  f_shift_on = 0;
 static uint16_t f_shift_timer = 0;
-static uint8_t  f_key_counter = 0;
+
+
+static uint8_t  f_ctrl_on = 0;
+static uint16_t f_ctrl_timer = 0;
+static uint8_t  f_ctrl_key_counter = 0;
+ 
+static uint8_t  f_ctrl_up_key = 0;
+
 
 static uint8_t mylayer = 0;
 //static uint8_t f_shift_left_righ_layer = 0;
@@ -163,6 +176,8 @@ void tap(uint16_t key) {
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 // static uint8_t mods_pressed;
 //  static bool mod_flag;
+
+      uint8_t mymods = MOD_LCTL; 
   
   //uprintf("\naction %d opt %d\n", id, opt);
 
@@ -179,26 +194,149 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break; 
 */
     case F_SHIFT:
-      print("shiht 1\n");
+      uprintf("** sft %u 1 ", timer_read());
       if (record->event.pressed) {
-        print("\nshiht 2\n");
+        uprint("2s\n");
 
         f_shift_on=1;
         f_shift_timer=timer_read();
-        f_key_counter=key_counter;
+        f_shift_key_counter=key_counter;
 
         layer_on(L_SHIFT);
         set_oneshot_layer(L_SHIFT, ONESHOT_START);
 
       } else {
-        print("\nshiht 3\n");
+        uprint("3s\n");
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
       break; 
 
+// ----------------------------------------------------------------------
+ 
+    case F_CONTROL:
+
+      uprintf("** ctr %u 1 ", timer_read());
+
+      if (record->event.pressed) {
+        uprint("2c\n");
+
+        f_ctrl_up_key = 0;
+        f_ctrl_on=1;
+        f_ctrl_timer=timer_read();
+        f_ctrl_key_counter=key_counter;
+
+        set_oneshot_mods(mymods);
+
+      } else {
+        f_ctrl_up_key += 1;
+        uprint("3c\n");
+      }
+      break; 
+
+
+/*
+    case F_CONTROL:
+      uprintf("** ctr %u 1 ", timer_read());
+      //uint8_t mods = MOD_LCTL | MOD_LSFT;
+      uint8_t mymods = MOD_LCTL;
+      bool shift=false;
+
+      if (record->event.pressed) {
+
+        if ( f_shift_on ) {
+          shift=true;
+          uprint(" on \n"); 
+          mymods |= MOD_LSFT;
+
+          reset_oneshot_layer();
+          clear_oneshot_locked_mods();
+      //    clear_oneshot_mods();
+
+          layer_clear();
+          layer_on(BASE_RADO2);
+        }
+
+
+        if ( shift ) {
+          uprint("2c on\n"); 
+        }  else {
+          uprint("2c off\n"); 
+        }
+
+        f_ctrl_up_key = 0;
+
+        f_ctrl_on=1;
+        f_ctrl_timer=timer_read();
+        f_ctrl_key_counter=key_counter;
+
+        clear_oneshot_mods(); 
+        set_oneshot_mods(mymods);
+
+      } else {
+        uprint("3c\n");
+
+        f_ctrl_up_key += 1;
+
+        if ( f_ctrl_up_key > 1 ) {
+          f_ctrl_timer=0;
+          f_ctrl_on=0;
+//          clear_oneshot_mods(); 
+          uprint("3c clear\n");
+        }
+   //     clear_oneshot_mods();
+//        unregister_mods(mods);       
+      }
+      break;  */
+
+// ----------------------------------------------------------------------
     case F_LEFT:
       print("llleft 1\n");
       mylayer=BASE_RADO2_LEFT;
+
+    case F_RIGHT:
+      if ( ! mylayer) {
+        mylayer=BASE_RADO2_RIGHT; 
+      }
+      print("rrreight 1\n");
+
+      if (record->event.pressed) {
+        print("rrreight 2\n");
+
+        if ( f_shift_on && \
+            (1 == (key_counter - f_shift_key_counter)) )
+        {
+          print("rrreight shift_on\n");
+          f_shift_on = 0;
+          layer_clear();
+          layer_on(BASE_RADO2);
+          reset_oneshot_layer();
+          clear_oneshot_mods();
+          clear_oneshot_locked_mods();
+
+          set_oneshot_mods (MOD_LSFT);
+        } else {
+          f_shift_on = 0;
+        }
+
+        layer_on(mylayer);
+        set_oneshot_layer(mylayer, ONESHOT_START);
+        mylayer=0;
+
+      } else {
+        print("rrreight 3\n");
+        mylayer=0;
+        clear_oneshot_layer_state(ONESHOT_PRESSED);        
+      }
+      break; 
+
+// ----------------------------------------------------------------------
+
+
+/*
+    case F_LEFT:
+      print("left ctrl 1\n");
+      mylayer=BASE_RADO2_LEFT;
+
     case F_RIGHT:
       if ( ! mylayer) {
         mylayer=BASE_RADO2_RIGHT; 
@@ -233,6 +371,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
       break; 
+*/
 
     case FDEBUG:
        if (record->event.pressed) {
@@ -245,6 +384,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       }
       break; 
 
+/*
     case FNONE:
       if (record->event.pressed) {
         uprintf("%d a pressed\n", id);
@@ -256,6 +396,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         layer_mychars_release=1;
       }
       break;
+*/
 
   }
 }
@@ -266,7 +407,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
   false - the functio below decide what the action should be; no further processing in other funs in the firmware
 */
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  uint16_t aux_keycode=keycode & 0x00ff;
+  //uint16_t aux_keycode=keycode & 0x00ff;
  // uprintf("** record %d %d %d\n", layer_mychars, keycode, aux_keycode);
 
   // uprintf("(");
@@ -280,57 +421,34 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // counts key presses 
   if ( record->event.pressed) {
     key_counter += 1;
-    uprintf("** key nr %d f_key nr %d\n", key_counter, f_key_counter);
+    uprintf("** key %u k_nr %d k_s %d k_c %d\n", timer_read(), key_counter, f_shift_key_counter, f_ctrl_key_counter);
+  } else {
+    uprintf("** key %u k_nr %d k_s %d k_c %d up\n", timer_read(), key_counter, f_shift_key_counter, f_ctrl_key_counter);
+  }
+  
+  if ( f_shift_on && (f_shift_key_counter != key_counter)) {
+     uprint( "shift\n" );
+
+     f_shift_on = 0;
+          layer_clear();
+          layer_on(BASE_RADO2);
+          reset_oneshot_layer();
+          clear_oneshot_mods();
+          clear_oneshot_locked_mods();
+   //   return false;
   }
 
-  if (layer_mychars==1 ) {
-    switch (aux_keycode) {
-      case KC_0:
-      case KC_1:
-      case KC_2:
-      case KC_3:
-      case KC_4:
-      case KC_5:
-      case KC_6:
-      case KC_7:
-      case KC_8:
-      case KC_9:
-        if (record->event.pressed) {
-          // uprintf("r pressed\n");
-          register_code(keycode);
-          send_keyboard_report();
-        } else {
-          // uprintf("r release\n");
-          unregister_code(keycode);
-          if ( layer_mychars_release ) {
-            layer_mychars_release=0;
-            layer_mychars=255;
-            layer_off(MYCHARS);
-            layer_on (BASE);
-          }
+  if ( f_ctrl_on && (f_ctrl_key_counter == key_counter)) {
+     uprint( "ctrl up\n" );
+    
+     return false;
+  }
 
-          send_keyboard_report();
-        }
 
-       // return false;
-    } //switch
-
-  } else if (layer_mychars == 255 ) {
-    layer_mychars=0;
-    // uprintf("exit layer, release key catching\n");
-  } else {
-    // uprintf("rrr\n");
-    switch (keycode) {
-      // dynamically generate these.
-      case 1:
-        if (record->event.pressed) {
-               break;
-        }
-        return false;
-        break;
-
-    } //switch
-  } //else
+  if ( f_ctrl_up_key > 1 ) { 
+    uprint( "up key\n" );
+    return false;
+  }
 
   return true;
 }
@@ -391,9 +509,7 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
              return MACRO( T(SPACE), T(SPACE), T(LEFT), END );
           }  
           break; 
-      
-
-
+/*
         case TEST:
         // Sends Alt+Shift on both key down and key up. 
         // Fesigned to switch between two keyboard layouts on Windows using a locking switch.
@@ -406,7 +522,9 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
             uprintf("b none %d", id);
             return MACRO_NONE;
           }
+*/          
       }
+
     return MACRO_NONE;
 };
 
@@ -417,7 +535,7 @@ void matrix_init_user() {
   mylayer = 0;
   f_shift_timer = 0;
   key_counter = 0;
-  f_key_counter = 0;
+  f_shift_key_counter = 0;
  // f_shift_left_righ_layer = 0;
 
  // ergodox_led_all_on();
@@ -445,8 +563,16 @@ void matrix_scan_user(void) {
   if (f_shift_timer && timer_elapsed (f_shift_timer) > (2*TAPPING_TERM)) {
     f_shift_timer=0;
     f_shift_on=0;
-    uprintf("** key zero\n");
+    uprintf("** key %u zero sft\n", timer_read());
   }
+
+
+  if (f_ctrl_timer && timer_elapsed (f_ctrl_timer) > (2*TAPPING_TERM)) {
+    f_ctrl_timer=0;
+    f_ctrl_on=0;
+    uprintf("** key %u zero ctrl\n", timer_read());
+  }
+
 
     // LEADER_DICTIONARY() {
     //   leading = false;

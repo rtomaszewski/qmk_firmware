@@ -17,17 +17,19 @@
 OSM(MOD_LSFT)
 OSL(L_SHIFT),
  OSL(BASE_RADO2_LEFT),
+  TT(L_ARROWS_BASH),
+   TD(CT_SWITCH_1),      TD(TD_ESC_CAPS),
 */
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-            KC_GESC,           KC_1,        TD(CT_SWITCH_1),      TD(TD_ESC_CAPS),         xxxxxxx,            xxxxxxx,        F(TEST2),          
+            KC_GESC,           KC_1,             xxxxxxx,              xxxxxxx,           xxxxxxx,            xxxxxxx,          xxxxxxx,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
       xxxxxxx,              OSM(MOD_LALT),          KC_B,            F(F_LEFT),          A_C_T(KC_F),          xxxxxxx ,         KC_PGUP,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
 LT(BASE_RADO2_RIGHT,KC_TAB),   KC_R,            CTL_T(KC_S),        LT(L_F1,KC_T),       ALT_T(KC_H),           KC_D ,              /* - */        
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-    OSL(L_NUMBERS) ,        F(F_SHIFT),      TT(L_ARROWS_BASH),      TD(TD_KEY_COPY),    TD(TD_KEY_PASTE),   LGUI_T(KC_P),        KC_PGDOWN,          
+    OSL(L_NUMBERS) ,        F(F_SHIFT),         F(F_CONTROL),         TD(TD_KEY_COPY),    TD(TD_KEY_PASTE),   LGUI_T(KC_P),        KC_PGDOWN,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-   TO(BASE_RADO2_BOTH),      xxxxxxx,             xxxxxxx,          KC_DELETE,        CTL_T(KC_BSPACE),       
+   TO(BASE_RADO2_BOTH),      xxxxxxx,         OSM(MOD_LALT),          KC_DELETE,        CTL_T(KC_BSPACE),       
 // `-------------------+-------------------+-------------------+-------------------+-------------------'
 
 
