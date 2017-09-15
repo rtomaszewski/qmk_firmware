@@ -15,10 +15,15 @@
 
 /* left hand */
 
+/*
+TD(TD_ESC_CAPS),
+  TD(TD_ESC_CAPS),
+*/
+
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-     TO(BASE_RADO2),          KC_7,           xxxxxxx,           xxxxxxx,              xxxxxxx,             xxxxxxx,          TD(TD_ESC_CAPS),          
+     TO(BASE_RADO2),          KC_7,           xxxxxxx,           xxxxxxx,              xxxxxxx,             xxxxxxx,            xxxxxxx,         
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          KC_HASH ,          KC_LCBR,    OSL(BASE_RADO2_DUPLICATE_L), KC_QUOTE ,        KC_BSLASH ,       TD(TD_ESC_CAPS),     
+            xxxxxxx,          KC_HASH ,          KC_LCBR,    OSL(BASE_RADO2_DUPLICATE_L), KC_QUOTE ,        KC_BSLASH ,         xxxxxxx, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
 LT(BASE_RADO2_DUPLICATE_R,KC_AT), KC_LBRACKET,   KC_MINUS ,         KC_LPRN,              KC_DQUO  ,        KC_ASTR ,          /* - */     
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|

@@ -7,7 +7,8 @@ DEBUG_ENABLE = yes
 CONSOLE_ENABLE = yes
 
 # we want double dance
-TAP_DANCE_ENABLE = yes
+# TAP_DANCE_ENABLE = yes
+TAP_DANCE_ENABLE = no
 
 # AUTOLOG_ENABLE = no
 # ifeq (${AUTOLOG_ENABLE},yes)
