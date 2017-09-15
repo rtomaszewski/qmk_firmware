@@ -23,7 +23,8 @@ enum custom_keycodes {
  c:8207 shifh
   */
 #define  keycode_r_shift 8207  
-#define  keycode_r_ctrl 8208
+#define  keycode_l_ctrl 8209
+#define  keycode_r_ctrl 8210
 
 enum layers {
     BASE=0, // default layer
@@ -79,7 +80,8 @@ enum functions_numbers {
   F_LEFT, 
 
   F_CONTROL, 
-
+  F_CONTROL_L, 
+  F_CONTROL_R, 
 };
 
 //Tap Dance Declarations
@@ -144,7 +146,9 @@ const uint16_t PROGMEM fn_actions[] = {
   [F_RIGHT]          = ACTION_FUNCTION(F_RIGHT),  
   [F_LEFT]           = ACTION_FUNCTION(F_LEFT),  
 
-  [F_CONTROL]        = ACTION_FUNCTION(F_CONTROL),
+  // [F_CONTROL]        = ACTION_FUNCTION(F_CONTROL),
+  [F_CONTROL_L]        = ACTION_FUNCTION(F_CONTROL_L),
+  [F_CONTROL_R]        = ACTION_FUNCTION(F_CONTROL_R),
 
 //  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
@@ -169,6 +173,8 @@ static uint16_t f_shift_timer = 0;
 static uint8_t  f_ctrl_on = 0;
 static uint16_t f_ctrl_timer = 0;
 static uint8_t  f_ctrl_key_counter = 0;
+static uint8_t  f_ctrl_double_tap = 0;
+static uint8_t  f_ctrl_layer = 0;
  
 //static uint8_t  f_ctrl_up_key = 0;
 
@@ -221,28 +227,58 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break; 
 
 // ----------------------------------------------------------------------
- 
-    case F_CONTROL:
+    case F_CONTROL_L:
+      f_ctrl_layer = L_ARROWS_BASH;
+
+    case F_CONTROL_R:
 
       uprintf("** ctr %u 1 ", timer_read());
+ 
+      if ( ! f_ctrl_layer ) {
+        f_ctrl_layer = L_ARROWS;
+      }
 
       if (record->event.pressed) {
         uprint("2c\n");
 
-    //    f_ctrl_up_key = 0;
-        f_ctrl_on=1;
-        f_ctrl_timer=timer_read();
-        f_ctrl_key_counter=key_counter;
+        if ( f_ctrl_on &&
+             timer_elapsed (f_ctrl_timer) < TAPPING_TERM
+        ){
+          uprint("4c\n");
 
-        f_mymods |= MOD_LCTL;
-        set_oneshot_mods(f_mymods);
-        f_mymods_copy = f_mymods;
-        f_mymods = 0;
+          f_ctrl_double_tap = 1;
+          f_ctrl_key_counter=key_counter;
 
+          clear_oneshot_mods();
+          unregister_mods(f_mymods_copy);
+
+          layer_invert( f_ctrl_layer );
+
+        } else {
+      //    f_ctrl_up_key = 0;
+          f_ctrl_on=1;
+          f_ctrl_timer=timer_read();
+          f_ctrl_key_counter=key_counter;
+
+          f_mymods |= MOD_LCTL;
+          set_oneshot_mods(f_mymods);
+          f_mymods_copy = f_mymods;
+          f_mymods = 0;
+        }
       } else {
         // f_mymods = 0;
     //    f_ctrl_up_key += 1;
         uprint("3c\n");
+
+        if ( f_ctrl_double_tap && 
+             ( f_ctrl_key_counter != key_counter )
+        ) {
+          layer_invert( f_ctrl_layer );
+        }
+
+        f_ctrl_double_tap=0;
+        f_ctrl_layer = 0;
+
       }
       break; 
 
@@ -286,7 +322,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         mylayer=0;
 
       } else {
-        print("rrreight 3\n");
+        print("r 3\n");
         mylayer=0;
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
@@ -339,11 +375,13 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
     case FDEBUG:
        if (record->event.pressed) {
         debug_enable = !debug_enable;
+/*
         if (debug_enable) {
           print("\ndebug: on\n");
         } else {
           print("\ndebug: off\n");
         }
+        */
       }
       break; 
 
@@ -384,15 +422,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // counts key presses 
   if ( record->event.pressed) {
     key_counter += 1;
-    uprintf("** key t:%u c:%u k_nr %d k_s %d k_c %d\n", timer_read(), keycode, key_counter, f_shift_key_counter, f_ctrl_key_counter);
+    uprintf("** key t:%u c=%u:%d k_nr %d k_s %d k_c %d\n", 
+      timer_read(), keycode, record->tap.count, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   } else {
-    uprintf("** key t:%u c:%u k_nr %d k_s %d k_c %d up\n", timer_read(), keycode, key_counter, f_shift_key_counter, f_ctrl_key_counter);
+    uprintf("** key t:%u c=%u:%d k_nr %d k_s %d k_c %d up\n", 
+      timer_read(), keycode, record->tap.count, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   }
   
 
   if ( f_shift_on && 
       (f_shift_key_counter != key_counter) && 
-      ( keycode_r_ctrl == keycode ) 
+      ( (keycode_l_ctrl == keycode) || ( keycode_r_ctrl == keycode ))
   ) {
     uprint( "shift\n" );
     f_mymods |= MOD_LSFT;
@@ -529,14 +569,14 @@ void matrix_scan_user(void) {
   if (f_shift_timer && timer_elapsed (f_shift_timer) > (2*TAPPING_TERM)) {
     f_shift_timer=0;
     f_shift_on=0;
-    uprintf("** key %u zero sft\n", timer_read());
+    // uprintf("** key %u zero sft\n", timer_read());
   }
 
 
-  if (f_ctrl_timer && timer_elapsed (f_ctrl_timer) > (2*TAPPING_TERM)) {
+  if ( f_ctrl_timer && timer_elapsed (f_ctrl_timer) > (2*TAPPING_TERM) ) {
     f_ctrl_timer=0;
     f_ctrl_on=0;
-    uprintf("** key %u zero ctrl\n", timer_read());
+    // uprintf("** key %u zero ctrl\n", timer_read());
   }
 
 
