@@ -19,6 +19,12 @@ enum custom_keycodes {
 #define S_KC_J 5
 #define S_KC_K 6
 
+  /*
+ c:8207 shifh
+  */
+#define  keycode_r_shift 8207  
+#define  keycode_r_ctrl 8208
+
 enum layers {
     BASE=0, // default layer
     BASE_MALTRON=0,
@@ -140,7 +146,7 @@ const uint16_t PROGMEM fn_actions[] = {
 
   [F_CONTROL]        = ACTION_FUNCTION(F_CONTROL),
 
-  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
+//  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
 //  [TEST2] = ACTION_LAYER_MOMENTARY(1),
@@ -152,6 +158,8 @@ const uint16_t PROGMEM fn_actions[] = {
 //static uint8_t layer_mychars_release = 0;
 
 static uint8_t  key_counter = 0;
+static uint8_t  f_mymods= 0;
+static uint8_t  f_mymods_copy= 0;
 
 static uint8_t  f_shift_key_counter = 0;
 static uint8_t  f_shift_on = 0;
@@ -162,7 +170,7 @@ static uint8_t  f_ctrl_on = 0;
 static uint16_t f_ctrl_timer = 0;
 static uint8_t  f_ctrl_key_counter = 0;
  
-static uint8_t  f_ctrl_up_key = 0;
+//static uint8_t  f_ctrl_up_key = 0;
 
 
 static uint8_t mylayer = 0;
@@ -177,7 +185,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 // static uint8_t mods_pressed;
 //  static bool mod_flag;
 
-      uint8_t mymods = MOD_LCTL; 
+//      uint8_t mymods = ; 
   
   //uprintf("\naction %d opt %d\n", id, opt);
 
@@ -207,6 +215,7 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
       } else {
         uprint("3s\n");
+        // if ( f_shift_on ) 
         clear_oneshot_layer_state(ONESHOT_PRESSED);        
       }
       break; 
@@ -220,92 +229,41 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       if (record->event.pressed) {
         uprint("2c\n");
 
-        f_ctrl_up_key = 0;
+    //    f_ctrl_up_key = 0;
         f_ctrl_on=1;
         f_ctrl_timer=timer_read();
         f_ctrl_key_counter=key_counter;
 
-        set_oneshot_mods(mymods);
+        f_mymods |= MOD_LCTL;
+        set_oneshot_mods(f_mymods);
+        f_mymods_copy = f_mymods;
+        f_mymods = 0;
 
       } else {
-        f_ctrl_up_key += 1;
+        // f_mymods = 0;
+    //    f_ctrl_up_key += 1;
         uprint("3c\n");
       }
       break; 
 
-
-/*
-    case F_CONTROL:
-      uprintf("** ctr %u 1 ", timer_read());
-      //uint8_t mods = MOD_LCTL | MOD_LSFT;
-      uint8_t mymods = MOD_LCTL;
-      bool shift=false;
-
-      if (record->event.pressed) {
-
-        if ( f_shift_on ) {
-          shift=true;
-          uprint(" on \n"); 
-          mymods |= MOD_LSFT;
-
-          reset_oneshot_layer();
-          clear_oneshot_locked_mods();
-      //    clear_oneshot_mods();
-
-          layer_clear();
-          layer_on(BASE_RADO2);
-        }
-
-
-        if ( shift ) {
-          uprint("2c on\n"); 
-        }  else {
-          uprint("2c off\n"); 
-        }
-
-        f_ctrl_up_key = 0;
-
-        f_ctrl_on=1;
-        f_ctrl_timer=timer_read();
-        f_ctrl_key_counter=key_counter;
-
-        clear_oneshot_mods(); 
-        set_oneshot_mods(mymods);
-
-      } else {
-        uprint("3c\n");
-
-        f_ctrl_up_key += 1;
-
-        if ( f_ctrl_up_key > 1 ) {
-          f_ctrl_timer=0;
-          f_ctrl_on=0;
-//          clear_oneshot_mods(); 
-          uprint("3c clear\n");
-        }
-   //     clear_oneshot_mods();
-//        unregister_mods(mods);       
-      }
-      break;  */
-
 // ----------------------------------------------------------------------
     case F_LEFT:
-      print("llleft 1\n");
+      print("l 1\n");
       mylayer=BASE_RADO2_LEFT;
 
     case F_RIGHT:
       if ( ! mylayer) {
         mylayer=BASE_RADO2_RIGHT; 
       }
-      print("rrreight 1\n");
+      print("r 1\n");
 
       if (record->event.pressed) {
-        print("rrreight 2\n");
+        print("r 2\n");
 
-        if ( f_shift_on && \
-            (1 == (key_counter - f_shift_key_counter)) )
-        {
-          print("rrreight shift_on\n");
+        if ( f_shift_on && 
+             (1 == (key_counter - f_shift_key_counter)) 
+        ) {
+          print("shift_on\n");
           f_shift_on = 0;
           layer_clear();
           layer_on(BASE_RADO2);
@@ -316,6 +274,11 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
           set_oneshot_mods (MOD_LSFT);
         } else {
           f_shift_on = 0;
+        }
+
+        if ( f_ctrl_on ) {
+           print("ctrl_on\n");
+           set_oneshot_mods(f_mymods_copy); 
         }
 
         layer_on(mylayer);
@@ -421,34 +384,37 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 // counts key presses 
   if ( record->event.pressed) {
     key_counter += 1;
-    uprintf("** key %u k_nr %d k_s %d k_c %d\n", timer_read(), key_counter, f_shift_key_counter, f_ctrl_key_counter);
+    uprintf("** key t:%u c:%u k_nr %d k_s %d k_c %d\n", timer_read(), keycode, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   } else {
-    uprintf("** key %u k_nr %d k_s %d k_c %d up\n", timer_read(), key_counter, f_shift_key_counter, f_ctrl_key_counter);
+    uprintf("** key t:%u c:%u k_nr %d k_s %d k_c %d up\n", timer_read(), keycode, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   }
   
-  if ( f_shift_on && (f_shift_key_counter != key_counter)) {
-     uprint( "shift\n" );
 
-     f_shift_on = 0;
-          layer_clear();
-          layer_on(BASE_RADO2);
-          reset_oneshot_layer();
-          clear_oneshot_mods();
-          clear_oneshot_locked_mods();
-   //   return false;
+  if ( f_shift_on && 
+      (f_shift_key_counter != key_counter) && 
+      ( keycode_r_ctrl == keycode ) 
+  ) {
+    uprint( "shift\n" );
+    f_mymods |= MOD_LSFT;
+    f_shift_on = 0;
+    layer_clear();
+    layer_on(BASE_RADO2);
+    reset_oneshot_layer();
+    clear_oneshot_mods();
+    clear_oneshot_locked_mods();
   }
 
-  if ( f_ctrl_on && (f_ctrl_key_counter == key_counter)) {
-     uprint( "ctrl up\n" );
+  // if ( f_ctrl_on && (f_ctrl_key_counter == key_counter)) {
+  //    uprint( "ctrl up\n" );
     
-     return false;
-  }
+  //    return false;
+  // }
 
 
-  if ( f_ctrl_up_key > 1 ) { 
-    uprint( "up key\n" );
-    return false;
-  }
+  // if ( f_ctrl_up_key > 1 ) { 
+  //   uprint( "up key\n" );
+  //   return false;
+  // }
 
   return true;
 }
