@@ -89,6 +89,7 @@ enum functions_numbers {
   F_ALT_L, 
   F_ALT_R, 
 
+  F_KC_PLUS,
 };
 
 /*
@@ -161,6 +162,7 @@ const uint16_t PROGMEM fn_actions[] = {
   [F_ALT_L]        = ACTION_FUNCTION(F_ALT_L),
   [F_ALT_R]        = ACTION_FUNCTION(F_ALT_R),
 
+  [F_KC_PLUS]        = ACTION_FUNCTION(F_KC_PLUS),
 //  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
@@ -198,6 +200,12 @@ static uint8_t  f_alt_layer = 0;
 static uint8_t mylayer = 0;
 //static uint8_t f_shift_left_righ_layer = 0;
 
+/*
+static uint8_t aux = 0;
+static uint16_t aux_timer = 0;
+static uint8_t aux_key_counter = 0;
+*/
+
 void tap(uint16_t key) {
   register_code(key); 
   unregister_code(key);   
@@ -232,6 +240,11 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         f_shift_timer=timer_read();
         f_shift_key_counter=key_counter;
 
+        if ( f_ctrl_on || f_alt_on) {
+           print("mod on\n");
+           set_oneshot_mods(f_mymods_copy); 
+        }
+        
         layer_on(L_SHIFT);
         set_oneshot_layer(L_SHIFT, ONESHOT_START);
 
@@ -396,6 +409,37 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       break; 
 
 // ----------------------------------------------------------------------
+/*      
+    case F_KC_PLUS:
+      if (record->event.pressed) {
+          uprint("d\n");
+
+          if (  (timer_elapsed (aux_timer) < TAPPING_TERM) 
+                // aux_key_counter = key_counter
+          ) {
+
+          }
+          
+
+          // aux = 1;
+          // aux_key_counter = key_counter;
+          aux_timer = timer_read();
+
+          register_code(KC_LSFT); 
+          // tap(KC_EQUAL);
+          register_code(KC_1); 
+          unregister_code(KC_1);
+          unregister_code(KC_LSFT);
+
+      } else {
+          uprint("u\n");
+          
+
+      }
+      break;  
+      */
+
+// ----------------------------------------------------------------------
 
     case FDEBUG:
        if (record->event.pressed) {
@@ -451,7 +495,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       timer_read(), keycode, record->tap.count, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   }
   
-
+/*
   if ( f_shift_on && 
       (f_shift_key_counter != key_counter) && 
       ( 
@@ -470,7 +514,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     clear_oneshot_mods();
     clear_oneshot_locked_mods();
   }
-
+*/
   if ( f_ctrl_on && 
       (f_ctrl_key_counter != key_counter) && 
       ( 
