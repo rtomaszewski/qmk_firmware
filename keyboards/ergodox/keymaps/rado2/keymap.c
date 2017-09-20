@@ -66,6 +66,7 @@ enum functions_numbers {
   TEST2,
   FNONE,
   TEST,
+
   M_EXAMPLE, 
   M_COMMA,
   M_KC_LPRN,
@@ -74,6 +75,13 @@ enum functions_numbers {
   M_KC_DQUO,
   M_KC_QUOTE,         
   M_KC_SPACE, 
+
+  // bash macros
+  M_DIR_UP, 
+  M_DIR_BACK, 
+  M_LEFT, 
+  M_RIGHT, 
+
 
   F_EXAMPLE, 
 
@@ -600,6 +608,12 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
         case M_KC_SPACE:
           if (record->event.pressed) {
              return MACRO( T(SPACE), T(SPACE), T(LEFT), END );
+          }  
+          break; 
+
+        case M_DIR_UP:
+          if (record->event.pressed) {
+             return MACRO( T(C), T(D), T(SPACE), T(DOT), T(DOT),  T(ENTER), END );
           }  
           break; 
 /*
