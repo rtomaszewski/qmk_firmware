@@ -5,64 +5,57 @@
   #define _______ KC_TRNS
   #define xxxxxxx KC_NO
 
-//#define C_S_T(kc) MT((MOD_LCTL | MOD_LSFT), kc) // Control + Shift e.g. for gnome-terminal
-#define S_A_T(kc) MT( ( MOD_LSFT | MOD_LALT ), kc) 
-#define A_C_T(kc) MT( ( MOD_LALT | MOD_LCTL ), kc) 
 
+[L_SFT_R] = KEYMAP(
 
-[L_ARROWS_BASH] = KEYMAP(
+/* left hand 
 
-/* left hand */
-
-
+*/
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-     TO(BASE_RADO2),          KC_6,           xxxxxxx,           xxxxxxx,              xxxxxxx,           xxxxxxx,         xxxxxxx,          
+     TO(BASE_RADO2),           KC_2 ,              xxxxxxx,          xxxxxxx,           xxxxxxx,             xxxxxxx,           xxxxxxx,         
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          _______ ,          _______ ,         LCTL(KC_W),           _______ ,         _______ ,         xxxxxxx,     
+          xxxxxxx,            LSFT(KC_Q),          LSFT(KC_B),       xxxxxxx ,          LSFT(KC_F),          LSFT(KC_K),        xxxxxxx,            
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            _______,       LALT(KC_HASH),     LCTL(LSFT(KC_MINUS)),   LALT(KC_D),        LSFT(KC_INSERT),      LCTL(KC_Y),       /* - */     
+        LSFT(KC_TAB),         LSFT(KC_R),          LSFT(KC_S),       LSFT(KC_T),        LSFT(KC_H),          LSFT(KC_D),              /* - */        
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,        _______ ,         TO(BASE_RADO2) ,     _______ ,             LCTL(KC_C) ,           _______ ,           xxxxxxx,     
-// |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          xxxxxxx,          xxxxxxx,           _______,            _______ ,       
+          xxxxxxx,            xxxxxxx,             LSFT(KC_X),        LSFT(KC_G),       LSFT(KC_C),          LSFT(KC_P),        xxxxxxx,            
+// |-------------------+-------------------+- ------------------+-------------------+-------------------+-------------------+---------------------|
+          xxxxxxx,            xxxxxxx,             xxxxxxx,           xxxxxxx,          xxxxxxx,      
 // `-------------------+-------------------+-------------------+-------------------+-------------------'
 
 
  //                                                                                                   ,------------------+-------------------.
-                                                                                                             xxxxxxx,         xxxxxxx,       
+                                                                                                             xxxxxxx,          F(FDEBUG),       
  //                                                                                                   -------------------+-------------------|
-                                                                                                             /* - */          xxxxxxx,       
+                                                                                                             /* - */           xxxxxxx,       
  //                                                                               |-------------------+------------------+-------------------|
-                                                                                  LT(L_ARROWS2,KC_SPACE),   xxxxxxx,         xxxxxxx,       
-                                                                              //        KC_SPACE,           xxxxxxx,         xxxxxxx,       
+                                                                                      LSFT(KC_SPACE) ,      xxxxxxx,      xxxxxxx,       
  //                                                                               `-------------------+------------------+-------------------'
-
-
 
 /* right hand */
 /*
- M(M_DIR_UP),      LSFT(KC_PGDN) , 
-
-*/
+  OSL( OTHERS L_NUMBERS)
+ OSL(BASE_RADO2_RIGHT)      
+ TT(L_ARROWS),
+ */
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-           xxxxxxx,           xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,        xxxxxxx,             
+           xxxxxxx,           xxxxxxx,          xxxxxxx,               xxxxxxx,           xxxxxxx,            xxxxxxx,        xxxxxxx,             
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           xxxxxxx,           _______ ,         KC_LEFT ,              KC_UP ,           KC_RIGHT ,          _______ ,        xxxxxxx,         
+           xxxxxxx,        LSFT(KC_TILD),     LSFT(KC_SCOLON),        xxxxxxx,        LSFT(KC_SLASH),      LSFT(KC_PIPE),        xxxxxxx,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-          /* - */              LCTL(KC_A) ,    LALT(KC_B),           KC_DOWN  ,        LALT(KC_F) ,         LCTL(KC_E) ,      xxxxxxx,     
+          /* - */          LSFT(KC_EQUAL),    LSFT(KC_UNDS),       LSFT(KC_DOT),      LSFT(KC_PLUS),       LSFT(KC_COLN),    LSFT ( KC_PERC), 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           xxxxxxx,            LCTL(KC_U) ,        _______,       LSFT(KC_PGUP) ,        _______ ,          LCTL(KC_K)  ,      xxxxxxx,
+           xxxxxxx,           xxxxxxx,              xxxxxxx,         xxxxxxx,             xxxxxxx,            xxxxxxx,           xxxxxxx,    
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-                                               _______,            _______ ,        xxxxxxx,            xxxxxxx,          xxxxxxx,      
+                                            LSFT(KC_PSCREEN),       LSFT(KC_RPRN),      LSFT(KC_RCBR),       xxxxxxx,            xxxxxxx,      
 //                                         `-------------------+-------------------+-------------------+-------------------+---------------------'
-
 
  //       ,------------------+-------------------.
                 xxxxxxx,           xxxxxxx,        
  //       -------------------+-------------------|
                 xxxxxxx,             /* - */
  //       |-------------------+------------------+-------------------|
-                xxxxxxx,           xxxxxxx,             _______      
+                xxxxxxx,           xxxxxxx,        LSFT(KC_COMMA)
  //       `-------------------+------------------+-------------------'
 ),
 

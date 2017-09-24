@@ -5,32 +5,21 @@
   #define _______ KC_TRNS
   #define xxxxxxx KC_NO
 
-//#define C_S_T(kc) MT((MOD_LCTL | MOD_LSFT), kc) // Control + Shift e.g. for gnome-terminal
-#define S_A_T(kc) MT( ( MOD_LSFT | MOD_LALT ), kc) 
-#define A_C_T(kc) MT( ( MOD_LALT | MOD_LCTL ), kc) 
-
-
-[BASE_RADO2] = KEYMAP(
-
+[L_SFT] = KEYMAP(
 
 /* left hand 
-OSM(MOD_LSFT)
-OSL(L_SHIFT),
- OSL(BASE_RADO2_LEFT),
-  TT(L_ARROWS_BASH),
-   TD(CT_SWITCH_1),      TD(TD_ESC_CAPS),
-    TD(TD_KEY_COPY),    TD(TD_KEY_PASTE), 
+
 */
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-            KC_GESC,           KC_1,             xxxxxxx,              xxxxxxx,           xxxxxxx,            xxxxxxx,          xxxxxxx,          
+     TO(BASE_RADO2),           KC_2 ,              xxxxxxx,          xxxxxxx,           xxxxxxx,             xxxxxxx,           xxxxxxx,         
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-      xxxxxxx,              OSM(MOD_LALT),          KC_B,            F(F_LEFT),          A_C_T(KC_F),         F(F_ALT_L) ,      KC_PGUP,          
+          xxxxxxx,            LSFT(KC_Q),          LSFT(KC_B),       xxxxxxx ,          LSFT(KC_F),          LSFT(KC_K),        xxxxxxx,            
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-LT(BASE_RADO2_RIGHT,KC_TAB),   KC_R,            CTL_T(KC_S),        LT(L_F1,KC_T),       ALT_T(KC_H),           KC_D ,              /* - */        
+        LSFT(KC_TAB),         LSFT(KC_R),          LSFT(KC_S),       LSFT(KC_T),        LSFT(KC_H),          LSFT(KC_D),              /* - */        
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-    OSL(L_NUMBERS) ,        F(F_SHIFT),       F(F_CONTROL_L),           KC_G,              KC_C,          LGUI_T(KC_P),        KC_PGDOWN,          
-// |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-   TO(BASE_RADO2_BOTH),   TO(L_ARROWS_BASH),      OSM(MOD_LALT),          KC_DELETE,        CTL_T(KC_BSPACE),       
+          xxxxxxx,            xxxxxxx,             LSFT(KC_X),        LSFT(KC_G),       LSFT(KC_C),          LSFT(KC_P),        xxxxxxx,            
+// |-------------------+-------------------+- ------------------+-------------------+-------------------+-------------------+---------------------|
+          xxxxxxx,            xxxxxxx,             xxxxxxx,           xxxxxxx,          xxxxxxx,      
 // `-------------------+-------------------+-------------------+-------------------+-------------------'
 
 
@@ -39,36 +28,36 @@ LT(BASE_RADO2_RIGHT,KC_TAB),   KC_R,            CTL_T(KC_S),        LT(L_F1,KC_T
  //                                                                                                   -------------------+-------------------|
                                                                                                              /* - */           xxxxxxx,       
  //                                                                               |-------------------+------------------+-------------------|
-                                                                                LT(L_ARROWS2, KC_SPACE) ,  TO(L_ARROWS_DUPLICATE),  xxxxxxx,       
+                                                                                      LSFT(KC_SPACE) ,      xxxxxxx,      xxxxxxx,       
  //                                                                               `-------------------+------------------+-------------------'
 
 
 
 /* right hand */
-/*
+/*     
   OSL( OTHERS L_NUMBERS)
  OSL(BASE_RADO2_RIGHT)      
  TT(L_ARROWS),
  */
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-           xxxxxxx,           xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,         xxxxxxx,             
+           xxxxxxx,           xxxxxxx,          xxxxxxx,            xxxxxxx,             xxxxxxx,           xxxxxxx,           xxxxxxx,             
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           _______,          F(F_ALT_R) ,       A_C_T(KC_L),          F(F_RIGHT),             KC_U,           OSM(MOD_LALT),     xxxxxxx,          
+           xxxxxxx,         LSFT(KC_V),        LSFT(KC_L),          xxxxxxx,            LSFT(KC_U),        LSFT(KC_Z),         xxxxxxx,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-          /* - */              KC_M,          ALT_T(KC_N),         LT(L_F1,KC_A),       CTL_T(KC_I),        KC_O,        LT(BASE_RADO2_LEFT ,KC_ENTER),     
+          /* - */           LSFT(KC_M),        LSFT(KC_N),          LSFT(KC_A),         LSFT(KC_I),        LSFT(KC_O),        LSFT(KC_ENTER),     
+// |-------------------+-------------------+-------------------+-------------------+------------------+-------------------+---------------------|
+          xxxxxxx,           _______,          LSFT(KC_W),          LSFT(KC_Y),         LSFT(KC_J),        xxxxxxx,           xxxxxxx, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           _______,            _______,           KC_W,               KC_Y,            F(F_CONTROL_R),        F(F_SHIFT),      OSL(L_NUMBERS), 
-// |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-                                                   KC_RIGHT,         xxxxxxx,            xxxxxxx,            xxxxxxx,         xxxxxxx,      
+                                               xxxxxxx,          xxxxxxx,               xxxxxxx,             xxxxxxx,         xxxxxxx,      
 //                                         `-------------------+-------------------+-------------------+-------------------+---------------------'
 
 
  //       ,------------------+-------------------.
-                RESET,            xxxxxxx,        
+                xxxxxxx,            xxxxxxx,        
  //       -------------------+-------------------|
                 xxxxxxx,             /* - */
  //       |-------------------+------------------+-------------------|
-               xxxxxxx,           KC_BSPACE,      LT(L_ARROWS, KC_E)
+               xxxxxxx,            xxxxxxx,          LSFT(KC_E)
  //       `-------------------+------------------+-------------------'
 ),
 

@@ -18,42 +18,48 @@
 /*
 TD(TD_ESC_CAPS),
   TD(TD_ESC_CAPS),
+OSL(BASE_RADO2_DUPLICATE_L)
+LT(BASE_RADO2_LEFT,KC_AT),
 */
 
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-     TO(BASE_RADO2),          KC_7,           xxxxxxx,           xxxxxxx,              xxxxxxx,             xxxxxxx,            xxxxxxx,         
+     TO(BASE_RADO2),          KC_PSCREEN ,          KC_AMPR,            KC_CIRC ,            KC_GRAVE  ,         xxxxxxx,            xxxxxxx,         
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          KC_HASH ,          KC_LCBR,    OSL(BASE_RADO2_DUPLICATE_L), KC_QUOTE ,        KC_BSLASH ,         xxxxxxx, 
+            xxxxxxx,          KC_HASH ,          KC_LCBR,       OSL(L_BASE_RADO3),       KC_QUOTE ,        KC_BSLASH ,         xxxxxxx, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-LT(BASE_RADO2_DUPLICATE_R,KC_AT), KC_LBRACKET,   KC_MINUS ,         KC_LPRN,              KC_DQUO  ,        KC_ASTR ,          /* - */     
+          KC_AT,             KC_LBRACKET,        KC_MINUS ,         KC_LPRN,              KC_DQUO  ,        KC_ASTR ,          /* - */     
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
            _______,           KC_9 ,             KC_8 ,             KC_5 ,                KC_4,             KC_7 ,            xxxxxxx,     
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          xxxxxxx,           xxxxxxx,           xxxxxxx,              _______,       
+            xxxxxxx,            KC_LABK,         KC_LPRN  ,         KC_LCBR ,         KC_LBRACKET ,       
 // `-------------------+-------------------+-------------------+-------------------+-------------------'
  //                                                                                                   ,------------------+-------------------.
                                                                                                              xxxxxxx,         xxxxxxx,       
  //                                                                                                   -------------------+-------------------|
                                                                                                              /* - */          xxxxxxx,       
  //                                                                               |-------------------+------------------+-------------------|
-                                                                                    LT(L_ARROWS2, KC_SPACE ),         xxxxxxx,         xxxxxxx,       
+                                                                               LT(L_ARROWS2, KC_SPACE ),    KC_BSPACE,         xxxxxxx,       
  //                                                                               `-------------------+------------------+-------------------'
 
 
 
 /* right hand */
+/*
+OSL(BASE_RADO2_DUPLICATE_R)
+LT(L_ARROWS , KC_PERC), 
 
+*/
 
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-           xxxxxxx,           xxxxxxx,          xxxxxxx,               xxxxxxx,           xxxxxxx,            xxxxxxx,        xxxxxxx,             
+           xxxxxxx,           xxxxxxx,             xxxxxxx,          xxxxxxx,           xxxxxxx,           KC_INSERT ,         xxxxxxx,             
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           xxxxxxx,           KC_TILD ,         KC_SCOLON ,  OSL(BASE_RADO2_DUPLICATE_R), KC_SLASH ,          KC_PIPE,        xxxxxxx,          
+           xxxxxxx,           KC_TILD ,         KC_SCOLON ,      OSL(L_BASE_RADO3),      KC_SLASH ,          KC_PIPE,        xxxxxxx,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-          /* - */             KC_EQUAL  ,        KC_UNDS   ,           KC_DOT   ,         KC_PLUS  ,          KC_COLN ,      LT(BASE_RADO2_DUPLICATE_L , KC_PERC), 
+          /* - */             KC_EQUAL  ,        KC_UNDS   ,           KC_DOT   ,         KC_PLUS  ,          KC_COLN ,      KC_PERC, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
            xxxxxxx,           KC_6 ,              KC_1  ,              KC_2 ,              KC_0 ,               KC_3 ,        _______,
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-                                                  TO(BASE_RADO2) ,    xxxxxxx,            xxxxxxx,            xxxxxxx,        xxxxxxx,      
+                                                  KC_RPRN  ,         KC_RCBR ,         KC_RBRACKET ,           KC_RABK,         xxxxxxx,      
 //                                         `-------------------+-------------------+-------------------+-------------------+---------------------'
 
  //       ,------------------+-------------------.
@@ -61,7 +67,7 @@ LT(BASE_RADO2_DUPLICATE_R,KC_AT), KC_LBRACKET,   KC_MINUS ,         KC_LPRN,    
  //       -------------------+-------------------|
                 xxxxxxx,             /* - */
  //       |-------------------+------------------+-------------------|
-                xxxxxxx,           xxxxxxx,         LT(L_ARROWS, KC_COMMA)     
+                xxxxxxx,           KC_GESC,         LT(L_ARROWS, KC_COMMA)     
  //       `-------------------+------------------+-------------------'
 ),
 

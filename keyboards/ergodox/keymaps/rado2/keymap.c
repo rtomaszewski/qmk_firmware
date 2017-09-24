@@ -3,6 +3,9 @@
 #include "action_layer.h"
 #include "version.h"
 
+//#include "action.h"
+//extern bool do_release_oneshot;
+
 enum custom_keycodes {
   PLACEHOLDER = SAFE_RANGE, // can always be here
 };
@@ -12,53 +15,122 @@ enum custom_keycodes {
 #define XXXXXXX KC_NO
 #define xxxxxxx KC_NO
 
+/*
 #define S_KC_Z 1
 #define S_KC_V 2         
 #define S_KC_X 3
 #define S_KC_Q 4
 #define S_KC_J 5
 #define S_KC_K 6
+  */
 
   /*
  c:8207 shifh
   */
+ /*
 #define  keycode_r_shift 8207  
 #define  keycode_l_ctrl 8209
 #define  keycode_r_ctrl 8210
 #define  keycode_l_alt 8212
 #define  keycode_r_alt 8213
+ */
 
 enum layers {
     BASE=0, // default layer
     BASE_MALTRON=0,
     BASE_DVORAK=0,
 //    BASE_RSTHD=0,
-    BASE_RADO2=0,
+
+//    BASE_RADO2=0,
 //    BASE_BOTTOM_ROW,
-    L_SHIFT, 
+
+    BASE_RADO2_BOTH=0,    
+    L_BASE_RADO3=1,
+    BASE_RADO2=L_BASE_RADO3,
+
+    L_ARROWS,   
+    L_ARROWS_BASH, 
+    L_ARROWS2,
+
+ //   L_SHIFT, 
+  //  BASE_RADO2_BOTH,
+//    BASE_RADO2_DUPLICATE_L,
+//    BASE_RADO2_DUPLICATE_R,
+    BASE_RADO2_LEFT,
+    BASE_RADO2_RIGHT,
+
+    L_SFT,
+  //    L_SFT_L,
+  //    L_SFT_R,
+
+    L_CTL_L,
+    L_CTL_R,
+
+    L_ALT_L, 
+    L_ALT_R, 
+
+    L_WIN_L,
+    L_WIN_R,
+
+    L2_CTR_SFT_L,
+    L2_CTR_SFT_R,
+
+    L2_CTR_ALT_L,
+    L2_CTR_ALT_R,
+
+    L2_CTR_WIN_L,
+    L2_CTR_WIN_R,
+
+
+/*
+    L2_CTR_SFT_L,
+    L2_CTR_SFT_R,
+
+    L2_CTR_ALT_L,
+    L2_CTR_ALT_R,
+
+    L2_CTR_WIN_L,
+    L2_CTR_WIN_R,
+*/    
+
+
+    L4_NO_WIN,
+    L4_NO_ALT,
+    L4_NO_SHIFT, 
+    L4_NO_CTRL,
+
+
+    // L_ARROWS2,
+
+/*
+ //   L_SHIFT, 
     BASE_RADO2_BOTH,
     BASE_RADO2_DUPLICATE_L,
     BASE_RADO2_DUPLICATE_R,
     BASE_RADO2_LEFT,
     BASE_RADO2_RIGHT,
+*/
+/*    
     L_ARROWS,   
     L_ARROWS_DUPLICATE,  
     // L_ARROWS3_A,
     // L_ARROWS3_B,
     L_ARROWS_BASH, 
     L_ARROWS_BASH2,
-    L_ARROWS2, 
+*/
 
     // OTHERS,
     L_F1,
     L_NUMBERS,
 
+/*
     ARROW, 
     SHIFT_KEYS, 
     MOUSE_MOVEMENT, 
     ALL_LAYERS, 
     SPEC_FUNC,
     MYCHARS,
+  */
 };
 
 enum functions_numbers {
@@ -129,24 +201,43 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 // #include "base_rsthd.c"
 //#include "base_bottom_row.c"
 
-#include "base_rado2.c"
-#include "layer_shift.c" 
+// #include "base_rado2.c"
+#include "base_rado3.c"
+
+#include "layer_arrows.c"
+#include "layer_arrows_bash.c"
+#include "layer_arrows2.c"
+
+#include "l_sft.c"  
+//#include "l_sft_l.c"  
+//#include "l_sft_r.c"  
+
+#include "l_ctrl_l.c"  
+#include "l_ctrl_r.c"  
+
+#include "l_alt_l.c"  
+#include "l_alt_r.c"  
+
+#include "l_win_l.c"  
+#include "l_win_r.c"  
+
+//#include "layer_shift.c" 
 #include "base_rado2_both.c"
-//#include "base_rado2_duplicate_left.c"
-//#include "base_rado2_duplicate_right.c"
+// #include "base_rado2_duplicate_left.c"
+// #include "base_rado2_duplicate_right.c"
 #include "base_rado2_left.c"
 #include "base_rado2_right.c"
 //#include "others.c"
-#include "layer_arrows.c"
-#include "layer_arrows_duplicate.c"
-#include "layer_arrows_bash.c"
-#include "layer_arrows2.c"
+// #include "layer_arrows.c"
+// #include "layer_arrows_duplicate.c"
+// #include "layer_arrows_bash.c"
+//#include "layer_arrows2.c"
 // #include "layer_arrows_bash2.c"
 // #include "layer_arrows3a.c"
 // #include "layer_arrows3b.c"
 
-// #include "layer_f1.c"
-// #include "layer_numbers.c"
+ #include "layer_f1.c"
+ #include "layer_numbers.c"
 
 // #include "arrows.c"
 // #include "shift.c"
@@ -159,18 +250,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 const uint16_t PROGMEM fn_actions[] = {
   [FDEBUG]           = ACTION_FUNCTION(FDEBUG),  
-  [F_SHIFT]          = ACTION_FUNCTION(F_SHIFT),  
+  // [F_SHIFT]          = ACTION_FUNCTION(F_SHIFT),  
   [F_RIGHT]          = ACTION_FUNCTION(F_RIGHT),  
   [F_LEFT]           = ACTION_FUNCTION(F_LEFT),  
 
   // [F_CONTROL]        = ACTION_FUNCTION(F_CONTROL),
-  [F_CONTROL_L]        = ACTION_FUNCTION(F_CONTROL_L),
-  [F_CONTROL_R]        = ACTION_FUNCTION(F_CONTROL_R),
+  // [F_CONTROL_L]        = ACTION_FUNCTION(F_CONTROL_L),
+  // [F_CONTROL_R]        = ACTION_FUNCTION(F_CONTROL_R),
 
-  [F_ALT_L]        = ACTION_FUNCTION(F_ALT_L),
-  [F_ALT_R]        = ACTION_FUNCTION(F_ALT_R),
+  // [F_ALT_L]        = ACTION_FUNCTION(F_ALT_L),
+  // [F_ALT_R]        = ACTION_FUNCTION(F_ALT_R),
 
-  [F_KC_PLUS]        = ACTION_FUNCTION(F_KC_PLUS),
 //  [TEST2]            = ACTION_FUNCTION(TEST2),                   // ok
 
   //[TEST2] = ACTION_LAYER_ONESHOT(1),
@@ -182,6 +272,7 @@ const uint16_t PROGMEM fn_actions[] = {
 //static uint8_t layer_mychars = 0;
 //static uint8_t layer_mychars_release = 0;
 
+/*
 static uint8_t  key_counter = 0;
 static uint8_t  f_mymods= 0;
 static uint8_t  f_mymods_copy= 0;
@@ -196,14 +287,17 @@ static uint16_t f_ctrl_timer = 0;
 static uint8_t  f_ctrl_key_counter = 0;
 static uint8_t  f_ctrl_double_tap = 0;
 static uint8_t  f_ctrl_layer = 0;
- 
+*/
 //static uint8_t  f_ctrl_up_key = 0;
 
+/*
 static uint8_t  f_alt_on = 0;
 static uint16_t f_alt_timer = 0;
 static uint8_t  f_alt_key_counter = 0;
 static uint8_t  f_alt_double_tap = 0;
 static uint8_t  f_alt_layer = 0;
+*/
+
 
 static uint8_t mylayer = 0;
 //static uint8_t f_shift_left_righ_layer = 0;
@@ -214,10 +308,12 @@ static uint16_t aux_timer = 0;
 static uint8_t aux_key_counter = 0;
 */
 
+/*
 void tap(uint16_t key) {
   register_code(key); 
   unregister_code(key);   
 }
+*/
 
 void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 // static uint8_t mods_pressed;
@@ -239,6 +335,8 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       }
       break; 
 */
+
+/*
     case F_SHIFT:
       uprintf("** sft %u 1 ", timer_read());
       if (record->event.pressed) {
@@ -263,7 +361,10 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       }
       break; 
 
+*/
 // ----------------------------------------------------------------------
+
+/*
     case F_ALT_L:
       f_alt_layer = L_ARROWS_BASH;
 
@@ -316,8 +417,9 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
       }
       break; 
 
+*/
 // ----------------------------------------------------------------------
-
+/*
     case F_CONTROL_L:
       f_ctrl_layer = L_ARROWS_BASH;
 
@@ -369,8 +471,9 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
 
       }
       break; 
-
+*/
 // ----------------------------------------------------------------------
+
     case F_LEFT:
       print("l 1\n");
       mylayer=BASE_RADO2_LEFT;
@@ -380,10 +483,12 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         mylayer=BASE_RADO2_RIGHT; 
       }
       print("r 1\n");
+  //    do_release_oneshot = false;
 
       if (record->event.pressed) {
         print("r 2\n");
 
+/*
         if ( f_shift_on && 
              (1 == (key_counter - f_shift_key_counter)) 
         ) {
@@ -403,9 +508,11 @@ void action_function(keyrecord_t *record, uint8_t id, uint8_t opt) {
         if ( f_ctrl_on || f_alt_on) {
            print("mod on\n");
            set_oneshot_mods(f_mymods_copy); 
-        }
+        } 
+        */
 
         layer_on(mylayer);
+        //reset_oneshot_layer();
         set_oneshot_layer(mylayer, ONESHOT_START);
         mylayer=0;
 
@@ -493,6 +600,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   // debug_record(*record);
   // uprintf(")\n");
 
+/*
 // counts key presses 
   if ( record->event.pressed) {
     key_counter += 1;
@@ -502,7 +610,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     uprintf("** key t:%u c=%u:%d k_nr %d k_s %d k_c %d up\n", 
       timer_read(), keycode, record->tap.count, key_counter, f_shift_key_counter, f_ctrl_key_counter);
   }
-  
+*/
+
 /*
   if ( f_shift_on && 
       (f_shift_key_counter != key_counter) && 
@@ -523,6 +632,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     clear_oneshot_locked_mods();
   }
 */
+
+/*
   if ( f_ctrl_on && 
       (f_ctrl_key_counter != key_counter) && 
       ( 
@@ -550,6 +661,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     f_mymods |= MOD_LALT;
     f_alt_on = 0;
   }
+
+*/
 
   return true;
 }
@@ -638,11 +751,14 @@ const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 // keyboard initialization
 void matrix_init_user() {
 
+  layer_move(L_BASE_RADO3);
+/*
   f_shift_on = 0;
   mylayer = 0;
   f_shift_timer = 0;
   key_counter = 0;
   f_shift_key_counter = 0;
+*/
  // f_shift_left_righ_layer = 0;
 
  // ergodox_led_all_on();
@@ -667,6 +783,7 @@ void matrix_init_user() {
     
 void matrix_scan_user(void) {
 
+/*
   if (f_shift_timer && timer_elapsed (f_shift_timer) > (2*TAPPING_TERM)) {
     f_shift_timer=0;
     f_shift_on=0;
@@ -685,6 +802,7 @@ void matrix_scan_user(void) {
     uprintf("** key %u zero alt\n", timer_read());
   }
 
+*/
     uint8_t layer = biton32(layer_state);
 
     ergodox_board_led_off();

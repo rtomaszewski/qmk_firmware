@@ -38,13 +38,13 @@
 // - i.e you press OSL 1st time and it takes you to new layer L1. On L1 there is another OSL
 //   and you press it. The timer is reset to 0.
 //#undef ONESHOT_TIMEOUT
-#define ONESHOT_TIMEOUT 500
+#define ONESHOT_TIMEOUT 2500
 
 // how many taps before oneshot toggle is triggered
 // - this interfere if you use OSL on the same key on 2 diff layers
 // 		- if set to 2 it sometimes interfere and register both: (a) toggle OSL and (b) register key from layer
 
-#define ONESHOT_TAP_TOGGLE 3
+#define ONESHOT_TAP_TOGGLE 2
 
 
 

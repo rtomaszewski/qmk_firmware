@@ -5,64 +5,56 @@
   #define _______ KC_TRNS
   #define xxxxxxx KC_NO
 
-//#define C_S_T(kc) MT((MOD_LCTL | MOD_LSFT), kc) // Control + Shift e.g. for gnome-terminal
-#define S_A_T(kc) MT( ( MOD_LSFT | MOD_LALT ), kc) 
-#define A_C_T(kc) MT( ( MOD_LALT | MOD_LCTL ), kc) 
+[L_CTL_L] = KEYMAP(
 
+/* left hand 
 
-[L_ARROWS_BASH] = KEYMAP(
-
-/* left hand */
-
-
+*/
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-     TO(BASE_RADO2),          KC_6,           xxxxxxx,           xxxxxxx,              xxxxxxx,           xxxxxxx,         xxxxxxx,          
+     TO(BASE_RADO2),          KC_1,               xxxxxxx,           xxxxxxx,           xxxxxxx,             xxxxxxx,            xxxxxxx,         
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          _______ ,          _______ ,         LCTL(KC_W),           _______ ,         _______ ,         xxxxxxx,     
+            xxxxxxx,         LCTL(KC_HASH) ,     LCTL(KC_LCBR),       xxxxxxx,          LCTL(KC_QUOTE) ,       LCTL(KC_BSLASH) ,     xxxxxxx, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            _______,       LALT(KC_HASH),     LCTL(LSFT(KC_MINUS)),   LALT(KC_D),        LSFT(KC_INSERT),      LCTL(KC_Y),       /* - */     
+            KC_AT,          LCTL(KC_LBRACKET),  LCTL(KC_MINUS) ,     LCTL(KC_LPRN),      LCTL(KC_DQUO) ,       LCTL(KC_ASTR) ,          /* - */     
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,        _______ ,         TO(BASE_RADO2) ,     _______ ,             LCTL(KC_C) ,           _______ ,           xxxxxxx,     
+           _______,           xxxxxxx,              xxxxxxx,         xxxxxxx,             xxxxxxx,            xxxxxxx,           xxxxxxx,     
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-            xxxxxxx,          xxxxxxx,          xxxxxxx,           _______,            _______ ,       
+            xxxxxxx,          xxxxxxx,          LCTL(KC_AMPR),     LCTL(KC_CIRC) ,   LCTL(KC_GRAVE)  ,       
 // `-------------------+-------------------+-------------------+-------------------+-------------------'
-
-
  //                                                                                                   ,------------------+-------------------.
                                                                                                              xxxxxxx,         xxxxxxx,       
  //                                                                                                   -------------------+-------------------|
                                                                                                              /* - */          xxxxxxx,       
  //                                                                               |-------------------+------------------+-------------------|
-                                                                                  LT(L_ARROWS2,KC_SPACE),   xxxxxxx,         xxxxxxx,       
-                                                                              //        KC_SPACE,           xxxxxxx,         xxxxxxx,       
+                                                                                          xxxxxxx,           xxxxxxx,         xxxxxxx,       
  //                                                                               `-------------------+------------------+-------------------'
 
 
 
 /* right hand */
-/*
- M(M_DIR_UP),      LSFT(KC_PGDN) , 
-
-*/
+/*     
+  OSL( OTHERS L_NUMBERS)
+ OSL(BASE_RADO2_RIGHT)      
+ TT(L_ARROWS),
+ */
 // ,-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------.
-           xxxxxxx,           xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,            xxxxxxx,        xxxxxxx,             
+           xxxxxxx,           xxxxxxx,          xxxxxxx,            xxxxxxx,             xxxxxxx,           xxxxxxx,           xxxxxxx,             
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           xxxxxxx,           _______ ,         KC_LEFT ,              KC_UP ,           KC_RIGHT ,          _______ ,        xxxxxxx,         
+           xxxxxxx,         LCTL(KC_V),        LCTL(KC_L),          xxxxxxx,            LCTL(KC_U),        LCTL(KC_Z),         xxxxxxx,          
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-          /* - */              LCTL(KC_A) ,    LALT(KC_B),           KC_DOWN  ,        LALT(KC_F) ,         LCTL(KC_E) ,      xxxxxxx,     
+          /* - */           LCTL(KC_M),        LCTL(KC_N),          LCTL(KC_A),         LCTL(KC_I),        LCTL(KC_O),        LCTL(KC_ENTER),     
+// |-------------------+-------------------+-------------------+-------------------+------------------+-------------------+---------------------|
+          xxxxxxx,           _______,          LCTL(KC_W),          LCTL(KC_Y),         LCTL(KC_J),        xxxxxxx,           xxxxxxx, 
 // |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-           xxxxxxx,            LCTL(KC_U) ,        _______,       LSFT(KC_PGUP) ,        _______ ,          LCTL(KC_K)  ,      xxxxxxx,
-// |-------------------+-------------------+-------------------+-------------------+-------------------+-------------------+---------------------|
-                                               _______,            _______ ,        xxxxxxx,            xxxxxxx,          xxxxxxx,      
+                                               xxxxxxx,          xxxxxxx,               xxxxxxx,             xxxxxxx,         xxxxxxx,      
 //                                         `-------------------+-------------------+-------------------+-------------------+---------------------'
 
-
  //       ,------------------+-------------------.
-                xxxxxxx,           xxxxxxx,        
+                xxxxxxx,            xxxxxxx,        
  //       -------------------+-------------------|
                 xxxxxxx,             /* - */
  //       |-------------------+------------------+-------------------|
-                xxxxxxx,           xxxxxxx,             _______      
+               xxxxxxx,            xxxxxxx,          LCTL(KC_E)
  //       `-------------------+------------------+-------------------'
 ),
 
